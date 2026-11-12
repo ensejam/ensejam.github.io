@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>انسجام من | بازارچه و کانال</title>
 
-    <!-- ۱. اتصال به کیت توسعه ایتا (الزامی برای برنامک) -->
+    <!-- اتصال به کیت توسعه ایتا -->
     <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
 
+    <!-- فونت فارسی وزیرمتن (اختیاری اما زیبا) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+
     <style>
-        /* ۲. استفاده از متغیرهای تم ایتا برای هماهنگی خودکار با حالت تاریک/روشن */
+        /* --- متغیرهای تم (هماهنگ با ایتا) --- */
         :root {
             --bg: var(--tg-theme-bg-color, #ffffff);
             --text: var(--tg-theme-text-color, #1a1a1a);
-            --hint: var(--tg-theme-hint-color, #707579);
-            --button: var(--tg-theme-button-color, #2e7d32); /* رنگ سبز به عنوان رنگ اصلی برند */
+            --hint: var(--tg-theme-hint-color, #8e8e93);
+            --button: var(--tg-theme-button-color, #2e7d32);
             --button-text: var(--tg-theme-button-text-color, #ffffff);
-            --card-bg: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            --card-bg: var(--tg-theme-secondary-bg-color, #f8f9fa);
+            --divider: var(--tg-theme-hint-color, #e5e5ea);
             --viewport-height: var(--tg-viewport-stable-height, 100vh);
         }
 
@@ -28,81 +34,183 @@
         }
 
         body {
-            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif; /* فونت فارسی */
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--bg);
             color: var(--text);
-            height: var(--viewport-height);
+            min-height: var(--viewport-height);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+            padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
             transition: background-color 0.3s, color 0.3s;
-            overflow: hidden; /* جلوگیری از اسکرول ناخواسته در صفحه اول */
+            overflow: hidden;
+            position: relative;
         }
 
-        /* --- بخش بالا: برند و معرفی --- */
+        /* --- پس‌زمینه تزئینی (گرادیان نرم) --- */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -30%;
+            right: -20%;
+            width: 80vw;
+            height: 80vw;
+            background: radial-gradient(circle, rgba(46, 125, 50, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%;
+            left: -20%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(255, 152, 0, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- محتوای اصلی --- */
+        .content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+        }
+
+        /* --- بخش بالا: برند --- */
         .brand-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            margin-top: 8vh; /* فاصله از بالا برای تنفس بصری */
+            margin-top: 6vh;
         }
 
-        .logo-placeholder {
-            width: 80px;
-            height: 80px;
-            border-radius: 24px;
+        /* لوگو با افکت شیشه‌ای */
+        .logo-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            width: 88px;
+            height: 88px;
+            border-radius: 26px;
             background: linear-gradient(135deg, #2e7d32, #66bb6a);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 800;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.25);
+            box-shadow:
+                0 10px 30px rgba(46, 125, 50, 0.25),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 2;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* حلقه تزئینی دور لوگو */
+        .logo-ring {
+            position: absolute;
+            inset: -8px;
+            border-radius: 32px;
+            border: 2px dashed rgba(46, 125, 50, 0.2);
+            z-index: 1;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .brand-title {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 800;
             letter-spacing: -0.5px;
             margin-bottom: 8px;
+            background: linear-gradient(135deg, #2e7d32, #43a047);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .brand-tagline {
-            font-size: 16px;
+            font-size: 15px;
             color: var(--hint);
             line-height: 1.7;
-            max-width: 320px;
-            margin: 0 auto 32px;
+            max-width: 300px;
+            margin: 0 auto 28px;
         }
 
+        /* کارت معرفی با افکت شیشه‌ای */
         .intro-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            padding: 22px;
             width: 100%;
             max-width: 400px;
             text-align: right;
-            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s;
+        }
+
+        /* حالت تاریک برای کارت شیشه‌ای */
+        @media (prefers-color-scheme: dark) {
+            .intro-card {
+                background: rgba(40, 40, 40, 0.6);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        .intro-card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .intro-card-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2e7d32, #66bb6a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #fff;
         }
 
         .intro-card h2 {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
-            margin-bottom: 8px;
             color: var(--text);
         }
 
         .intro-card p {
-            font-size: 14px;
-            line-height: 1.8;
+            font-size: 13.5px;
+            line-height: 1.9;
             color: var(--hint);
         }
 
-        /* --- بخش پایین: دکمه اصلی ورود به بازارچه --- */
+        /* --- بخش پایین: دکمه‌ها --- */
         .action-section {
             width: 100%;
             max-width: 400px;
@@ -110,6 +218,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            padding-top: 24px;
         }
 
         .btn-primary {
@@ -119,21 +228,38 @@
             gap: 10px;
             width: 100%;
             padding: 18px;
-            background-color: var(--button);
-            color: var(--button-text);
+            background: linear-gradient(135deg, #2e7d32, #43a047);
+            color: #ffffff;
             border: none;
-            border-radius: 16px;
+            border-radius: 18px;
             font-size: 17px;
             font-weight: 700;
             font-family: inherit;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
-            text-decoration: none;
+            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.3);
+            transition: transform 0.15s, box-shadow 0.15s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
         }
 
         .btn-primary:active {
-            opacity: 0.85;
-            transform: scale(0.98);
+            transform: scale(0.97);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-primary:active::after {
+            left: 100%;
         }
 
         .btn-secondary {
@@ -142,107 +268,118 @@
             justify-content: center;
             gap: 8px;
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             background: transparent;
             color: var(--hint);
-            border: 1.5px solid var(--card-bg);
-            border-radius: 16px;
-            font-size: 15px;
+            border: 1.5px solid var(--divider);
+            border-radius: 18px;
+            font-size: 14px;
             font-weight: 600;
             font-family: inherit;
             cursor: pointer;
             text-decoration: none;
-            transition: background 0.2s;
+            transition: background 0.2s, border-color 0.2s;
         }
 
         .btn-secondary:active {
             background: var(--card-bg);
+            border-color: var(--button);
         }
 
-        /* آیکون‌های ساده با CSS (بدون نیاز به فایل خارجی) */
+        /* آیکون فلش */
         .icon-arrow {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border-top: 2.5px solid currentColor;
-            border-right: 2.5px solid currentColor;
-            transform: rotate(45deg);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            transition: transform 0.2s;
         }
 
-        /* حالت تاریک دستی (در صورت نیاز) */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --button: #4caf50;
-            }
+        .btn-primary:active .icon-arrow {
+            transform: translateX(-4px);
+        }
+
+        /* آیکون کانال */
+        .icon-channel {
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
 
-    <!-- بخش معرفی -->
-    <div class="brand-section">
-        <div class="logo-placeholder">ان</div>
-        <h1 class="brand-title">انسجام من</h1>
-        <p class="brand-tagline">اکوسیستمی برای توانمندسازی اقتصادی و اطلاع‌رسانی محلی</p>
+    <div class="content">
+        <!-- بخش معرفی -->
+        <div class="brand-section">
+            <div class="logo-wrapper">
+                <div class="logo-ring"></div>
+                <div class="logo">ان</div>
+            </div>
+            <h1 class="brand-title">انسجام من</h1>
+            <p class="brand-tagline">اکوسیستمی برای توانمندسازی اقتصادی و اطلاع‌رسانی محلی</p>
 
-        <div class="intro-card">
-            <h2>یک برنامک، دو کارکرد</h2>
-            <p>
-                از یک طرف، ویترین بازارچه اقتصادی ما برای معرفی و دسترسی به محصولات و خدمات محلی است.
-                از طرف دیگر، پلی است به کانال «انسجام من» برای اطلاع از آخرین اخبار، فرصت‌ها و رویدادها.
-            </p>
+            <div class="intro-card">
+                <div class="intro-card-header">
+                    <div class="intro-card-icon">✨</div>
+                    <h2>یک برنامک، دو کارکرد</h2>
+                </div>
+                <p>
+                    از یک طرف، ویترین بازارچه اقتصادی ما برای معرفی و دسترسی به محصولات و خدمات محلی است.
+                    از طرف دیگر، پلی است به کانال «انسجام من» برای اطلاع از آخرین اخبار، فرصت‌ها و رویدادها.
+                </p>
+            </div>
+        </div>
+
+        <!-- بخش اقدام (CTA) -->
+        <div class="action-section">
+            <button class="btn-primary" id="enterMarketBtn">
+                ورود به بازارچه
+                <span class="icon-arrow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </span>
+            </button>
+
+            <a href="https://eitaa.com/enshejam_man" target="_blank" class="btn-secondary" id="channelLink">
+                <span class="icon-channel">📢</span>
+                مشاهده کانال «انسجام من»
+            </a>
         </div>
     </div>
 
-    <!-- بخش اقدام (CTA) -->
-    <div class="action-section">
-        <!-- دکمه اصلی: ورود به بازارچه -->
-        <button class="btn-primary" id="enterMarketBtn">
-            ورود به بازارچه
-            <span class="icon-arrow"></span>
-        </button>
-
-        <!-- دکمه ثانویه: دسترسی به کانال (اختیاری) -->
-        <a href="https://eitaa.com/enshejam_man" target="_blank" class="btn-secondary" id="channelLink">
-            مشاهده کانال «انسجام من»
-        </a>
-    </div>
-
     <script>
-        // --- ۳. مقداردهی اولیه برنامک در محیط ایتا ---
+        // --- مقداردهی اولیه برنامک در محیط ایتا ---
         (function initEitaaApp() {
-            // بررسی می‌کنیم که آیا در محیط ایتا هستیم یا خیر
             if (window.Eitaa && window.Eitaa.WebApp) {
                 const WebApp = window.Eitaa.WebApp;
 
-                // به ایتا اطلاع می‌دهیم که برنامک آماده نمایش است (لایه لودینگ برداشته می‌شود)
+                // آماده‌سازی برنامک
                 WebApp.ready();
 
-                // برنامک را تا تمام ارتفاع ممکن گسترش می‌دهیم تا فضای بیشتری داشته باشیم
+                // گسترش تا تمام ارتفاع
                 if (!WebApp.isExpanded) {
                     WebApp.expand();
                 }
 
-                // (اختیاری) اگر نام کاربر را داریم، می‌توانیم در آینده شخصی‌سازی کنیم.
-                // const user = WebApp.initDataUnsafe?.user;
-                // if (user && user.first_name) {
-                //     console.log('کاربر:', user.first_name);
-                // }
+                // تنظیم رنگ هدر ایتا (اختیاری)
+                if (WebApp.setHeaderColor) {
+                    try {
+                        WebApp.setHeaderColor('#2e7d32');
+                    } catch (e) {
+                        // در برخی نسخه‌ها ممکن است پشتیبانی نشود
+                    }
+                }
             }
         })();
 
-        // --- ۴. مدیریت کلیک روی دکمه ورود به بازارچه ---
+        // --- مدیریت کلیک روی دکمه ورود به بازارچه ---
         document.getElementById('enterMarketBtn').addEventListener('click', function() {
-            // ⚠️ اینجا آدرس صفحه بازارچه خود را قرار بده.
-            // این می‌تواند یک صفحه دیگر در همان پروژه گیت‌هاب باشد (مثلاً market.html)
-            // یا یک آدرس کامل از یک سرویس دیگر.
-            const marketUrl = 'market.html'; // <-- این خط را با آدرس واقعی بازارچه جایگزین کن
+            // آدرس صفحه بازارچه
+            const marketUrl = 'market.html';
 
             // هدایت کاربر به صفحه بازارچه
             window.location.href = marketUrl;
-
-            // اگر ترجیح می‌دهی بازارچه در یک تب جدید باز شود (نه توصیه‌شده در WebView):
-            // window.open(marketUrl, '_blank');
         });
     </script>
 </body>
