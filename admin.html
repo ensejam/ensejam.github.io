@@ -14,6 +14,7 @@
         .form-box { background: var(--card); padding: 20px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 20px; }
         input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--teal); }
+        .help-text { font-size: 11px; color: var(--gold); margin-top: -8px; margin-bottom: 12px; display: block; }
         button { width: 100%; padding: 14px; border: none; border-radius: 8px; background: var(--teal); color: #fff; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
         button:hover { opacity: 0.8; }
         .btn-export { background: var(--gold); color: #000; margin-top: 20px; }
@@ -48,8 +49,9 @@
                 <option value="digital">دیجیتال</option>
             </select>
             
-            <!-- فیلد جدید برای لینک عکس -->
-            <input type="text" id="image" placeholder="لینک عکس محصول (مثلاً https://ensejam.github.io/images/honey.jpg)">
+            <!-- فیلد عکس با راهنمای جدید -->
+            <input type="text" id="image" placeholder="نام عکس (مثلاً honey.jpg)">
+            <span class="help-text">فقط نام فایل عکس را وارد کنید (پسوند jpg یا png). آدرس سایت به صورت خودکار اضافه می‌شود.</span>
             
             <input type="text" id="icon" placeholder="ایموجی (در صورت نداشتن عکس مثلاً 🍯)">
             <textarea id="desc" rows="3" placeholder="توضیحات محصول..."></textarea>
@@ -63,7 +65,6 @@
     </div>
 
     <script>
-        // محصولات پیش‌فرض (با فیلد image)
         let products = [
             { id: 1, name: 'عسل طبیعی کوهستان', price: 280000, cat: 'food', badge: 'تخفیف', icon: '🍯', image: '', desc: 'عسل خالص' },
             { id: 2, name: 'فرش دستباف کوچک', price: 1200000, cat: 'handicraft', badge: null, icon: '🧶', image: '', desc: 'فرش دستباف' }
@@ -73,8 +74,7 @@
             const list = document.getElementById('list');
             list.innerHTML = '';
             products.forEach((p, index) => {
-                // اگر عکس داشت عکس رو نشون بده، وگرنه ایموجی
-                let visual = p.image ? `<img src="${p.image}" alt="${p.name}">` : `<span style="font-size:24px; margin-left:10px;">${p.icon}</span>`;
+                let visual = p.image ? `<img src="${p.image}" alt="${p.name}">` : `<span style="font-size:24px; margin-left:10px;">${p.icon || '📦'}</span>`;
                 
                 list.innerHTML += `
                     <div class="product-item">
@@ -92,7 +92,7 @@
             const name = document.getElementById('name').value;
             const price = parseInt(document.getElementById('price').value);
             const cat = document.getElementById('category').value;
-            const image = document.getElementById('image').value;
+            const rawImage = document.getElementById('image').value.trim();
             const icon = document.getElementById('icon').value || '📦';
             const desc = document.getElementById('desc').value;
 
@@ -101,6 +101,19 @@
                 return;
             }
 
+            // --- بخش هوشمندسازی آدرس عکس ---
+            let finalImageUrl = '';
+            if (rawImage) {
+                if (rawImage.startsWith('http://') || rawImage.startsWith('https://')) {
+                    // اگر کاربر خودش لینک کامل داد، همان را ذخیره کن
+                    finalImageUrl = rawImage;
+                } else {
+                    // اگر فقط اسم فایل داد، آدرس سایت را به آن بچسبان
+                    finalImageUrl = `https://ensejam.github.io/images/${rawImage}`;
+                }
+            }
+            // --------------------------------
+
             products.push({
                 id: Date.now(),
                 name: name,
@@ -108,11 +121,12 @@
                 cat: cat,
                 badge: null,
                 icon: icon,
-                image: image, // ذخیره لینک عکس
+                image: finalImageUrl, // ذخیره آدرس نهایی
                 desc: desc
             });
             
             renderList();
+            // پاک کردن فرم
             document.getElementById('name').value = '';
             document.getElementById('price').value = '';
             document.getElementById('desc').value = '';
