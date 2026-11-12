@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>استارتاپ استعدادیابی | The Future</title>
+    <title>استارتاپ استعدادیابی | آینده روشن</title>
     
     <!-- فونت فارسی وزیرمتن -->
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -17,9 +17,11 @@
                 extend: {
                     fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
                     colors: {
-                        brand: '#38bdf8',
-                        surface: '#0a0a0a',
-                        border: '#262626'
+                        brand: '#2563eb',      // آبی اعتمادبخش
+                        accent: '#f59e0b',     // نارنجی گرم برای نوجوان
+                        surface: '#f8fafc',    // پس‌زمینه روشن
+                        darkText: '#0f172a',   // متن اصلی
+                        grayText: '#475569'    // متن فرعی
                     }
                 }
             }
@@ -34,27 +36,33 @@
         .lenis.lenis-stopped { overflow: hidden; }
 
         body {
-            background-color: #0a0a0a;
-            color: #ededed;
+            background-color: #f8fafc;
+            color: #0f172a;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* بافت پس‌زمینه تیره و تکنیکال */
-        .bg-grid {
+        /* بافت پس‌زمینه روشن و تکنیکال */
+        .bg-grid-light {
             background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
             mask-image: radial-gradient(ellipse at center, black 40%, transparent 100%);
         }
 
-        /* افکت نورانی کارت‌ها (Vercel Style) */
+        /* افکت کارت‌های شیشه‌ای/سفید مدرن */
         .glow-card {
             position: relative;
-            background: #0f0f0f;
-            border: 1px solid #262626;
-            border-radius: 16px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
             overflow: hidden;
+            box-shadow: 0 4px 20px -5px rgba(0,0,0,0.03);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .glow-card:hover {
+            box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
         }
         .glow-card::before {
             content: "";
@@ -63,7 +71,7 @@
             width: 100%;
             left: 0;
             top: 0;
-            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(56, 189, 248, 0.1), transparent 40%);
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(37, 99, 235, 0.05), transparent 40%);
             opacity: 0;
             transition: opacity 0.5s;
             z-index: 1;
@@ -73,9 +81,9 @@
 
         /* استایل تیترهای بزرگ */
         .hero-title {
-            font-size: clamp(3rem, 8vw, 7rem);
-            line-height: 1.1;
-            letter-spacing: -0.04em;
+            font-size: clamp(2.5rem, 6vw, 5.5rem);
+            line-height: 1.2;
+            letter-spacing: -0.03em;
         }
 
         /* نوار متحرک (Marquee) */
@@ -85,12 +93,12 @@
             display: flex;
         }
         .marquee-content {
-            animation: marquee 20s linear infinite;
+            animation: marquee 25s linear infinite;
             display: flex;
         }
         @keyframes marquee {
             0% { transform: translateX(0); }
-            100% { transform: translateX(50%); } /* برای RTL */
+            100% { transform: translateX(50%); }
         }
 
         /* دکمه مگنتی */
@@ -99,108 +107,114 @@
         }
     </style>
 </head>
-<body class="antialiased selection:bg-brand selection:text-black">
+<body class="antialiased selection:bg-brand selection:text-white">
 
     <!-- پس‌زمینه گرید تیره -->
-    <div class="fixed inset-0 bg-grid z-0 pointer-events-none"></div>
+    <div class="fixed inset-0 bg-grid-light z-0 pointer-events-none"></div>
 
-    <!-- منوی شیشه‌ای -->
-    <nav class="fixed top-0 w-full z-50 border-b border-border/50 bg-surface/50 backdrop-blur-md">
+    <!-- منوی شیشه‌ای سفید -->
+    <nav class="fixed top-0 w-full z-50 border-b border-gray-200 bg-white/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2 font-bold text-xl tracking-tighter">
-                <div class="w-6 h-6 bg-brand rounded-sm transform rotate-45"></div>
+            <div class="flex items-center gap-2 font-bold text-xl tracking-tighter text-darkText">
+                <div class="w-6 h-6 bg-brand rounded-md transform rotate-45 flex items-center justify-center">
+                    <div class="w-2 h-2 bg-white rounded-full"></div>
+                </div>
                 استارتاپ
             </div>
-            <div class="hidden md:flex gap-8 text-sm text-gray-400">
-                <a href="#" class="hover:text-white transition-colors">پلتفرم</a>
-                <a href="#" class="hover:text-white transition-colors">داستان ما</a>
-                <a href="#" class="hover:text-white transition-colors">تیم</a>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-grayText">
+                <a href="#" class="hover:text-brand transition-colors">پلتفرم</a>
+                <a href="#" class="hover:text-brand transition-colors">داستان ما</a>
+                <a href="#" class="hover:text-brand transition-colors">تیم</a>
             </div>
-            <a href="#" class="text-sm font-medium bg-white text-black px-4 py-2 rounded-full hover:bg-gray-200 transition-colors">شروع کنید</a>
+            <a href="#" class="text-sm font-bold bg-brand text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition-colors shadow-lg shadow-brand/20">شروع کنید</a>
         </div>
     </nav>
 
     <!-- بخش هدر سینمایی -->
     <section class="relative min-h-screen flex flex-col justify-center items-center px-6 pt-20 z-10">
-        <div class="max-w-5xl mx-auto text-center">
-            <div class="gsap-hero-el inline-block mb-6 px-3 py-1 rounded-full border border-border bg-[#111] text-xs font-medium text-brand">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="gsap-hero-el inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full border border-blue-100 bg-blue-50 text-xs font-bold text-brand">
+                <span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
                 نسل جدید استعدادیابی
             </div>
-            <h1 class="hero-title font-black mb-8 gsap-hero-el">
+            <h1 class="hero-title font-black mb-8 text-darkText gsap-hero-el">
                 استعداد را کشف کن.<br>
-                <span class="text-gray-500">آینده را بساز.</span>
+                <span class="text-brand">آینده را بساز.</span>
             </h1>
-            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 gsap-hero-el">
-                ما با استفاده از الگوریتم‌های پیشرفته و روانشناسی شناختی، مسیر رشد نوجوانان را دقیق و علمی ترسیم می‌کنیم.
+            <p class="text-lg md:text-xl text-grayText max-w-2xl mx-auto mb-10 gsap-hero-el leading-relaxed">
+                ما با استفاده از الگوریتم‌های پیشرفته و روانشناسی شناختی، مسیر رشد نوجوانان را دقیق و علمی ترسیم می‌کنیم تا والدین با اطمینان کامل همراه فرزندشان باشند.
             </p>
-            <div class="flex gap-4 justify-center gsap-hero-el">
-                <button class="btn-magnetic bg-brand text-black px-8 py-3 rounded-full font-bold hover:bg-white transition-colors">ورود به پلتفرم</button>
-                <button class="btn-magnetic bg-[#111] border border-border text-white px-8 py-3 rounded-full font-bold hover:bg-[#222] transition-colors">مشاهده دمو</button>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center gsap-hero-el">
+                <button class="btn-magnetic bg-brand text-white px-8 py-3.5 rounded-full font-bold hover:bg-blue-700 transition-colors shadow-xl shadow-brand/30">ورود به پلتفرم</button>
+                <button class="btn-magnetic bg-white border border-gray-300 text-darkText px-8 py-3.5 rounded-full font-bold hover:bg-gray-50 transition-colors">مشاهده دمو</button>
             </div>
         </div>
     </section>
 
-    <!-- نوار متحرک لوگوها / کلمات کلیدی -->
-    <div class="border-y border-border bg-[#0a0a0a] py-4 z-10 relative">
+    <!-- نوار متحرک کلمات کلیدی -->
+    <div class="border-y border-gray-200 bg-white py-5 z-10 relative">
         <div class="marquee-container">
-            <div class="marquee-content text-gray-500 font-bold text-xl tracking-widest uppercase">
-                <span class="mx-8">تحلیل داده</span> • <span class="mx-8 text-white">هوش مصنوعی</span> • <span class="mx-8">روانشناسی</span> • <span class="mx-8 text-white">آموزش</span> • <span class="mx-8">آینده</span> • <span class="mx-8 text-white">تکنولوژی</span>
-                <span class="mx-8">تحلیل داده</span> • <span class="mx-8 text-white">هوش مصنوعی</span> • <span class="mx-8">روانشناسی</span> • <span class="mx-8 text-white">آموزش</span> • <span class="mx-8">آینده</span> • <span class="mx-8 text-white">تکنولوژی</span>
+            <div class="marquee-content text-gray-400 font-bold text-xl tracking-widest uppercase">
+                <span class="mx-8">تحلیل داده</span> • <span class="mx-8 text-brand">هوش مصنوعی</span> • <span class="mx-8">روانشناسی</span> • <span class="mx-8 text-accent">آموزش</span> • <span class="mx-8">آینده</span> • <span class="mx-8 text-brand">تکنولوژی</span>
+                <span class="mx-8">تحلیل داده</span> • <span class="mx-8 text-brand">هوش مصنوعی</span> • <span class="mx-8">روانشناسی</span> • <span class="mx-8 text-accent">آموزش</span> • <span class="mx-8">آینده</span> • <span class="mx-8 text-brand">تکنولوژی</span>
             </div>
         </div>
     </div>
 
-    <!-- بخش Bento Grid (چیدمان نامتقارن) -->
+    <!-- بخش Bento Grid -->
     <section class="py-32 px-6 relative z-10">
         <div class="max-w-7xl mx-auto">
-            <div class="mb-16">
-                <h2 class="text-4xl font-bold mb-4 gsap-fade-up">معماری هوشمند استعداد.</h2>
-                <p class="text-gray-400 gsap-fade-up">ما فقط تست نمی‌گیریم، ما آینده را برنامه‌ریزی می‌کنیم.</p>
+            <div class="mb-16 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 text-darkText gsap-fade-up">معماری هوشمند استعداد.</h2>
+                <p class="text-grayText text-lg gsap-fade-up">ما فقط تست نمی‌گیریم، ما آینده را برنامه‌ریزی می‌کنیم.</p>
             </div>
 
             <!-- گرید -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
                 <!-- کارت بزرگ -->
                 <div class="glow-card md:col-span-2 p-8 md:p-12 group gsap-fade-up">
                     <div class="relative z-10">
-                        <h3 class="text-2xl font-bold mb-4">تحلیل عمیق شناختی</h3>
-                        <p class="text-gray-400 max-w-md">با استفاده از آزمون‌های استاندارد جهانی و هوش مصنوعی، زوایای پنهان شخصیت و استعداد نوجوان را کشف می‌کنیم.</p>
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center mb-6 text-brand">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 text-darkText">تحلیل عمیق شناختی</h3>
+                        <p class="text-grayText max-w-lg leading-relaxed">با استفاده از آزمون‌های استاندارد جهانی و هوش مصنوعی، زوایای پنهان شخصیت و استعداد نوجوان را کشف می‌کنیم تا والدین دید بهتری به توانایی‌های فرزندشان داشته باشند.</p>
                     </div>
-                    <div class="mt-12 flex gap-2">
-                        <div class="h-2 w-12 bg-brand rounded-full"></div>
-                        <div class="h-2 w-12 bg-brand/50 rounded-full"></div>
-                        <div class="h-2 w-12 bg-brand/20 rounded-full"></div>
+                    <div class="mt-10 flex gap-2">
+                        <div class="h-2 w-16 bg-brand rounded-full"></div>
+                        <div class="h-2 w-16 bg-brand/40 rounded-full"></div>
+                        <div class="h-2 w-16 bg-gray-200 rounded-full"></div>
                     </div>
                 </div>
 
                 <!-- کارت مربعی -->
                 <div class="glow-card p-8 group gsap-fade-up">
                     <div class="relative z-10">
-                        <div class="w-10 h-10 rounded-full bg-[#222] flex items-center justify-center mb-6 text-brand">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <div class="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center mb-6 text-accent">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-bold mb-2">سرعت و دقت</h3>
-                        <p class="text-gray-400 text-sm">گزارش‌های لحظه‌ای و دقیق برای والدین و مشاوران.</p>
+                        <h3 class="text-xl font-bold mb-3 text-darkText">سرعت و دقت</h3>
+                        <p class="text-grayText text-sm leading-relaxed">گزارش‌های لحظه‌ای و دقیق برای والدین و مشاوران، بدون پیچیدگی‌های اضافه.</p>
                     </div>
                 </div>
 
                 <!-- کارت مربعی -->
                 <div class="glow-card p-8 group gsap-fade-up">
                     <div class="relative z-10">
-                        <div class="w-10 h-10 rounded-full bg-[#222] flex items-center justify-center mb-6 text-brand">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                        <div class="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center mb-6 text-green-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-bold mb-2">مسیر اختصاصی</h3>
-                        <p class="text-gray-400 text-sm">هر نوجوان یک نقشه راه منحصر به فرد برای رشد دارد.</p>
+                        <h3 class="text-xl font-bold mb-3 text-darkText">محیط کاملاً امن</h3>
+                        <p class="text-grayText text-sm leading-relaxed">اطلاعات نوجوانان شما نزد ما کاملاً رمزنگاری شده و در بستری ایزوله نگهداری می‌شود.</p>
                     </div>
                 </div>
 
                 <!-- کارت بزرگ افقی -->
-                <div class="glow-card md:col-span-2 p-8 md:p-12 group gsap-fade-up flex flex-col justify-end min-h-[300px]">
+                <div class="glow-card md:col-span-2 p-8 md:p-12 group gsap-fade-up flex flex-col justify-center">
                     <div class="relative z-10">
-                        <h3 class="text-2xl font-bold mb-4">امنیت و حریم خصوصی</h3>
-                        <p class="text-gray-400 max-w-md">اطلاعات نوجوانان شما نزد ما کاملاً رمزنگاری شده و در بستری ایزوله و امن نگهداری می‌شود.</p>
+                        <h3 class="text-2xl font-bold mb-3 text-darkText">مسیر اختصاصی هر نوجوان</h3>
+                        <p class="text-grayText max-w-lg leading-relaxed">ما معتقدیم هیچ دو نوجوانی شبیه هم نیستند. به همین دلیل برای هر فرد یک نقشه راه منحصر به فرد برای رشد و شکوفایی طراحی می‌کنیم.</p>
                     </div>
                 </div>
 
@@ -208,38 +222,38 @@
         </div>
     </section>
 
-    <!-- بخش تیم (مینیمال و شیک) -->
-    <section class="py-32 px-6 border-t border-border relative z-10">
+    <!-- بخش تیم -->
+    <section class="py-32 px-6 border-t border-gray-200 relative z-10 bg-white">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                 <div>
-                    <h2 class="text-4xl font-bold mb-4 gsap-fade-up">تیم پشت پروژه.</h2>
-                    <p class="text-gray-400 gsap-fade-up">ذهن‌های خلاقی که این آینده را می‌سازند.</p>
+                    <h2 class="text-4xl font-bold mb-4 text-darkText gsap-fade-up">تیم پشت پروژه.</h2>
+                    <p class="text-grayText text-lg gsap-fade-up">ذهن‌های خلاقی که این آینده را می‌سازند.</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- عضو ۱ -->
-                <div class="flex items-center gap-6 p-6 rounded-2xl border border-border bg-[#0f0f0f] hover:bg-[#151515] transition-colors gsap-fade-up">
-                    <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-brand to-purple-500 p-[2px]">
-                        <div class="w-full h-full rounded-full bg-surface flex items-center justify-center text-2xl font-bold">ن</div>
+                <div class="flex items-center gap-6 p-8 rounded-3xl border border-gray-100 bg-surface hover:shadow-lg transition-all gsap-fade-up">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-brand to-blue-400 p-[3px] flex-shrink-0">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-3xl font-bold text-brand">ن</div>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold">[نام شما]</h3>
-                        <p class="text-brand mb-2">بنیان‌گذار و مدیرعامل</p>
-                        <p class="text-sm text-gray-400">توضیح کوتاه درباره سابقه و تخصص شما.</p>
+                        <h3 class="text-2xl font-bold text-darkText">[نام شما]</h3>
+                        <p class="text-brand font-medium mb-2">بنیان‌گذار و مدیرعامل</p>
+                        <p class="text-sm text-grayText leading-relaxed">توضیح کوتاه درباره سابقه، تحصیلات و انگیزه شما برای شروع این پروژه.</p>
                     </div>
                 </div>
 
                 <!-- عضو ۲ -->
-                <div class="flex items-center gap-6 p-6 rounded-2xl border border-border bg-[#0f0f0f] hover:bg-[#151515] transition-colors gsap-fade-up">
-                    <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-gray-700 to-gray-500 p-[2px]">
-                        <div class="w-full h-full rounded-full bg-surface flex items-center justify-center text-2xl font-bold">ه</div>
+                <div class="flex items-center gap-6 p-8 rounded-3xl border border-gray-100 bg-surface hover:shadow-lg transition-all gsap-fade-up">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-accent to-orange-300 p-[3px] flex-shrink-0">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-3xl font-bold text-accent">ه</div>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold">[نام همکار]</h3>
-                        <p class="text-brand mb-2">مدیر فنی</p>
-                        <p class="text-sm text-gray-400">توضیح کوتاه درباره سابقه و تخصص همکار شما.</p>
+                        <h3 class="text-2xl font-bold text-darkText">[نام همکار]</h3>
+                        <p class="text-accent font-medium mb-2">مدیر فنی / مشاور</p>
+                        <p class="text-sm text-grayText leading-relaxed">توضیح کوتاه درباره سابقه و تخصص همکار شما.</p>
                     </div>
                 </div>
             </div>
@@ -247,25 +261,22 @@
     </section>
 
     <!-- فوتر -->
-    <footer class="py-12 border-t border-border text-center relative z-10">
-        <p class="text-gray-500 text-sm">تمامی حقوق محفوظ است. © ۱۴۰۳</p>
+    <footer class="py-12 border-t border-gray-200 bg-white text-center relative z-10">
+        <p class="text-grayText text-sm">تمامی حقوق برای استارتاپ [نام استارتاپ] محفوظ است. © ۱۴۰۳</p>
     </footer>
 
     <!-- ===== اسکریپت‌های مدرن (GSAP & Lenis) ===== -->
     
-    <!-- Lenis برای اسکرول نرم و لوکس -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-    
-    <!-- GSAP و ScrollTrigger برای انیمیشن‌های حرفه‌ای -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
-        // ۱. راه‌اندازی اسکرول نرم (Lenis)
+        // ۱. راه‌اندازی اسکرول نرم
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'rtl', // چون سایت فارسی است
+            direction: 'rtl',
             gestureDirection: 'vertical',
             smooth: true,
             mouseMultiplier: 1,
@@ -279,12 +290,11 @@
         }
         requestAnimationFrame(raf);
 
-        // اتصال Lenis به GSAP ScrollTrigger
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => { lenis.raf(time * 1000); });
         gsap.ticker.lagSmoothing(0);
 
-        // ۲. انیمیشن‌های ورودی هدر (GSAP)
+        // ۲. انیمیشن‌های ورودی هدر
         gsap.from(".gsap-hero-el", {
             y: 40,
             opacity: 0,
@@ -294,12 +304,12 @@
             delay: 0.2
         });
 
-        // ۳. انیمیشن‌های اسکرول (ظاهر شدن بخش‌ها)
+        // ۳. انیمیشن‌های اسکرول
         gsap.utils.toArray(".gsap-fade-up").forEach((element) => {
             gsap.from(element, {
                 scrollTrigger: {
                     trigger: element,
-                    start: "top 85%", // وقتی ۱۵ درصد از پایین صفحه رد شد
+                    start: "top 85%",
                     toggleActions: "play none none reverse"
                 },
                 y: 50,
@@ -309,7 +319,7 @@
             });
         });
 
-        // ۴. افکت نورانی دنبال‌کننده موس روی کارت‌ها (Vercel Style)
+        // ۴. افکت نورانی دنبال‌کننده موس (حالا با رنگ آبی ملایم)
         document.querySelectorAll('.glow-card').forEach(card => {
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
@@ -321,14 +331,14 @@
             });
         });
 
-        // ۵. افکت مگنتی برای دکمه‌ها (وقتی موس نزدیک میشه، دکمه جذب میشه)
+        // ۵. افکت مگنتی برای دکمه‌ها
         const magneticBtns = document.querySelectorAll('.btn-magnetic');
         magneticBtns.forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
                 const rect = btn.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
             });
             
             btn.addEventListener('mouseleave', () => {
