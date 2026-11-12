@@ -12,223 +12,79 @@
 
     <style>
         :root {
-            --bg-dark: #041a17;
-            --teal: #00bfa5;
-            --teal-dark: #00796b;
-            --gold: #e5c158;
-            --orange: #ff7043;
-            --text-main: #ffffff;
-            --text-muted: #8fa6a3;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --card-bg: #082622;
+            --bg-dark: #041a17; --teal: #00bfa5; --teal-dark: #00796b;
+            --gold: #e5c158; --orange: #ff7043; --text-main: #ffffff;
+            --text-muted: #8fa6a3; --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1); --card-bg: #082622;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; font-family: 'Yekan Bakh', 'Vazirmatn', sans-serif; }
-
-        body {
-            background-color: #000;
-            color: var(--text-main);
-            min-height: 100dvh;
-            display: flex;
-            justify-content: center;
-            overflow: hidden; 
-        }
-
-        #app-container {
-            width: 100%;
-            max-width: 480px;
-            height: 100dvh;
-            background-color: var(--bg-dark);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 50px rgba(0,0,0,0.9);
-        }
-
-        /* --- هدر --- */
-        .header {
-            padding: 16px 20px;
-            background: var(--bg-dark);
-            z-index: 10;
-            position: sticky;
-            top: 0;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .header-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-
-        .back-btn {
-            width: 40px; height: 40px; border-radius: 12px;
-            background: var(--glass); border: 1px solid var(--glass-border);
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; text-decoration: none;
-        }
-
-        .header-title { font-size: 18px; font-weight: 700; }
-
-        .cart-icon {
-            position: relative; width: 40px; height: 40px; border-radius: 12px;
-            background: var(--glass); border: 1px solid var(--glass-border);
-            display: flex; align-items: center; justify-content: center; color: var(--gold);
-        }
-
-        .cart-badge {
-            position: absolute; top: -5px; right: -5px; background: var(--orange); color: #fff;
-            font-size: 10px; font-weight: bold; width: 18px; height: 18px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            border: 2px solid var(--bg-dark); opacity: 0; transform: scale(0); transition: 0.3s;
-        }
-        .cart-badge.show { opacity: 1; transform: scale(1); }
-
-        .search-bar {
-            display: flex; align-items: center; background: var(--glass);
-            border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px 14px; gap: 10px;
-        }
-        .search-bar input {
-            background: transparent; border: none; color: #fff; width: 100%; outline: none; font-size: 14px;
-        }
-
-        .scroll-area {
-            flex-grow: 1; overflow-y: auto; padding-bottom: 80px; scrollbar-width: none;
-        }
-        .scroll-area::-webkit-scrollbar { display: none; }
-
-        /* --- بخش خدمات ثابت --- */
-        .services-section {
-            padding: 16px 20px 0;
-        }
-        .services-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
-        }
-        .services-title { font-size: 16px; font-weight: 700; color: var(--gold); }
+        body { background-color: #000; color: var(--text-main); min-height: 100dvh; display: flex; justify-content: center; overflow: hidden; }
+        #app-container { width: 100%; max-width: 480px; height: 100dvh; background-color: var(--bg-dark); position: relative; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
         
-        .services-scroll {
-            display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; padding-bottom: 10px;
-        }
+        .header { padding: 16px 20px; background: var(--bg-dark); z-index: 10; position: sticky; top: 0; border-bottom: 1px solid var(--glass-border); }
+        .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .back-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--glass); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; }
+        .header-title { font-size: 18px; font-weight: 700; }
+        .cart-icon { position: relative; width: 40px; height: 40px; border-radius: 12px; background: var(--glass); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--gold); }
+        .cart-badge { position: absolute; top: -5px; right: -5px; background: var(--orange); color: #fff; font-size: 10px; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg-dark); opacity: 0; transform: scale(0); transition: 0.3s; }
+        .cart-badge.show { opacity: 1; transform: scale(1); }
+        
+        .search-bar { display: flex; align-items: center; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px 14px; gap: 10px; }
+        .search-bar input { background: transparent; border: none; color: #fff; width: 100%; outline: none; font-size: 14px; }
+        
+        .scroll-area { flex-grow: 1; overflow-y: auto; padding-bottom: 80px; scrollbar-width: none; }
+        .scroll-area::-webkit-scrollbar { display: none; }
+        
+        .services-section { padding: 16px 20px 0; }
+        .services-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .services-title { font-size: 16px; font-weight: 700; color: var(--gold); }
+        .services-scroll { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; padding-bottom: 10px; }
         .services-scroll::-webkit-scrollbar { display: none; }
-
-        .service-card {
-            flex-shrink: 0; width: 140px; background: var(--glass);
-            border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px;
-            text-align: center; cursor: pointer; transition: 0.2s;
-        }
-        .service-card:active { transform: scale(0.95); background: rgba(255,255,255,0.08); }
+        .service-card { flex-shrink: 0; width: 140px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .service-card:active { transform: scale(0.95); }
         .service-icon { font-size: 28px; margin-bottom: 8px; }
         .service-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
         .service-type { font-size: 10px; color: var(--teal); background: rgba(0,191,165,0.1); padding: 2px 8px; border-radius: 10px; display: inline-block; }
-
-        /* --- دسته‌بندی‌ها --- */
-        .categories {
-            display: flex; gap: 10px; padding: 16px 20px; overflow-x: auto; scrollbar-width: none;
-        }
+        
+        .categories { display: flex; gap: 10px; padding: 16px 20px; overflow-x: auto; scrollbar-width: none; }
         .categories::-webkit-scrollbar { display: none; }
-
-        .cat-btn {
-            flex-shrink: 0; padding: 8px 16px; background: var(--glass);
-            border: 1px solid var(--glass-border); border-radius: 20px;
-            color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer;
-        }
+        .cat-btn { flex-shrink: 0; padding: 8px 16px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 20px; color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer; }
         .cat-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
-
-        /* --- بنر و محصولات --- */
-        .banner {
-            margin: 0 20px 20px; border-radius: 20px; padding: 24px;
-            background: linear-gradient(135deg, rgba(0, 191, 165, 0.2), rgba(229, 193, 88, 0.1));
-            border: 1px solid var(--teal-dark);
-        }
+        
+        .banner { margin: 0 20px 20px; border-radius: 20px; padding: 24px; background: linear-gradient(135deg, rgba(0, 191, 165, 0.2), rgba(229, 193, 88, 0.1)); border: 1px solid var(--teal-dark); }
         .banner h2 { font-size: 20px; margin-bottom: 8px; color: var(--gold); }
         .banner p { font-size: 13px; color: var(--text-muted); }
-
+        
         .section-title { padding: 0 20px; margin-bottom: 16px; font-size: 16px; }
-        
-        .product-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 0 20px;
-        }
-
-        .product-card {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 18px; overflow: hidden; cursor: pointer;
-        }
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 0 20px; }
+        .product-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 18px; overflow: hidden; cursor: pointer; }
         .product-card:active { transform: scale(0.96); }
-
-        .product-img {
-            height: 120px; background: linear-gradient(45deg, #0d3832, #15463e);
-            display: flex; align-items: center; justify-content: center; font-size: 40px;
-            position: relative; overflow: hidden;
-        }
+        .product-img { height: 120px; background: linear-gradient(45deg, #0d3832, #15463e); display: flex; align-items: center; justify-content: center; font-size: 40px; position: relative; overflow: hidden; }
         .product-img img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .product-badge {
-            position: absolute; top: 8px; right: 8px; background: var(--orange); color: #fff;
-            font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 10px; z-index: 2;
-        }
-
+        .product-badge { position: absolute; top: 8px; right: 8px; background: var(--orange); color: #fff; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 10px; z-index: 2; }
         .product-info { padding: 12px; }
         .product-name { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
         .product-price { font-size: 14px; color: var(--teal); font-weight: 800; }
-
-        /* --- منوی پایین --- */
-        .bottom-nav {
-            position: absolute; bottom: 0; left: 0; right: 0; height: 65px;
-            background: rgba(4, 26, 23, 0.95); backdrop-filter: blur(10px);
-            border-top: 1px solid var(--glass-border); display: flex;
-            align-items: center; justify-content: space-around; padding-bottom: env(safe-area-inset-bottom);
-            z-index: 20;
-        }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center;
-            font-size: 10px; color: var(--text-muted); gap: 4px;
-            cursor: pointer; transition: 0.2s;
-        }
+        
+        .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; height: 65px; background: rgba(4, 26, 23, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-around; padding-bottom: env(safe-area-inset-bottom); z-index: 20; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: var(--text-muted); gap: 4px; cursor: pointer; transition: 0.2s; }
         .nav-item.active { color: var(--teal); }
         .nav-item svg { width: 22px; height: 22px; }
-
-        /* --- پنجره‌ها --- */
-        .modal-overlay {
-            position: absolute; inset: 0; background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(4px); z-index: 50; opacity: 0; pointer-events: none; transition: 0.3s;
-        }
+        
+        .modal-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 50; opacity: 0; pointer-events: none; transition: 0.3s; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-
-        .bottom-sheet {
-            position: absolute; bottom: 0; left: 0; right: 0; background: var(--card-bg);
-            border-radius: 30px 30px 0 0; padding: 24px; z-index: 51;
-            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            border-top: 1px solid var(--glass-border); max-height: 90dvh; display: flex; flex-direction: column;
-        }
+        .bottom-sheet { position: absolute; bottom: 0; left: 0; right: 0; background: var(--card-bg); border-radius: 30px 30px 0 0; padding: 24px; z-index: 51; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); border-top: 1px solid var(--glass-border); max-height: 90dvh; display: flex; flex-direction: column; }
         .bottom-sheet.active { transform: translateY(0); }
-
         .drag-handle { width: 40px; height: 4px; background: var(--glass-border); border-radius: 4px; margin: 0 auto 20px; flex-shrink: 0;}
         .sheet-content { overflow-y: auto; scrollbar-width: none; padding-bottom: 20px; }
         .sheet-content::-webkit-scrollbar { display: none; }
-
-        .modal-icon {
-            width: 100%; height: 180px; background: rgba(0, 191, 165, 0.1);
-            border-radius: 20px; display: flex; align-items: center; justify-content: center;
-            font-size: 60px; margin-bottom: 16px; overflow: hidden;
-        }
+        .modal-icon { width: 100%; height: 180px; background: rgba(0, 191, 165, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 60px; margin-bottom: 16px; overflow: hidden; }
         .modal-icon img { width: 100%; height: 100%; object-fit: cover; }
         .modal-title { font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 8px; }
         .modal-desc { font-size: 13px; color: var(--text-muted); text-align: center; margin-bottom: 16px; line-height: 1.6; }
-        
-        .modal-price-row {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 16px; padding: 16px; background: var(--glass); border-radius: 16px;
-        }
+        .modal-price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 16px; background: var(--glass); border-radius: 16px; }
         .modal-price-val { font-size: 18px; font-weight: 800; color: var(--teal); }
-
-        .btn-add-cart {
-            width: 100%; padding: 18px; background: linear-gradient(90deg, var(--teal), var(--teal-dark));
-            color: #fff; border: none; border-radius: 16px; font-size: 16px; font-weight: 700;
-            box-shadow: 0 8px 20px rgba(0, 191, 165, 0.3); margin-bottom: 24px;
-        }
-
+        .btn-add-cart { width: 100%; padding: 18px; background: linear-gradient(90deg, var(--teal), var(--teal-dark)); color: #fff; border: none; border-radius: 16px; font-size: 16px; font-weight: 700; box-shadow: 0 8px 20px rgba(0, 191, 165, 0.3); margin-bottom: 24px; }
         .service-info-box { background: var(--glass); padding: 16px; border-radius: 16px; margin-bottom: 16px; }
         .service-info-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
         .service-info-row:last-child { margin-bottom: 0; }
@@ -240,8 +96,7 @@
 <body>
 
     <div id="app-container">
-        <!-- هدر -->
-        <div class="header" id="topHeader">
+        <div class="header">
             <div class="header-top">
                 <a href="index.html" class="back-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
@@ -258,20 +113,12 @@
             </div>
         </div>
 
-        <!-- بخش اسکرول شونده -->
         <div class="scroll-area" id="scrollArea">
-            
-            <!-- بخش خدمات محلی -->
             <div class="services-section">
-                <div class="services-header">
-                    <span class="services-title">🌟 خدمات محلی</span>
-                </div>
-                <div class="services-scroll" id="servicesContainer">
-                    <!-- خدمات لود می‌شوند -->
-                </div>
+                <div class="services-header"><span class="services-title">🌟 خدمات محلی</span></div>
+                <div class="services-scroll" id="servicesContainer"></div>
             </div>
 
-            <!-- دسته‌بندی‌ها -->
             <div class="categories" id="categoriesContainer">
                 <div class="cat-btn active" data-cat="all">همه محصولات</div>
                 <div class="cat-btn" data-cat="food">خوراکی</div>
@@ -280,18 +127,15 @@
                 <div class="cat-btn" data-cat="digital">دیجیتال</div>
             </div>
 
-            <!-- بنر -->
             <div class="banner">
                 <h2>پیشنهاد ویژه</h2>
                 <p>تخفیف‌های استثنایی روی محصولات محلی و صنایع دستی</p>
             </div>
 
-            <!-- محصولات -->
             <h3 class="section-title">محصولات</h3>
             <div class="product-grid" id="productGrid"></div>
         </div>
 
-        <!-- نوار پایین -->
         <div class="bottom-nav">
             <div class="nav-item active" id="navHome" onclick="scrollToTop()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
@@ -307,7 +151,6 @@
             </div>
         </div>
 
-        <!-- پنجره محصولات و خدمات -->
         <div class="modal-overlay" id="modalOverlay"></div>
         <div class="bottom-sheet" id="bottomSheet">
             <div class="drag-handle"></div>
@@ -319,7 +162,6 @@
                 <h2 class="modal-title" id="modalTitle"></h2>
                 <p class="modal-desc" id="modalDesc"></p>
                 
-                <!-- اطلاعات مخصوص محصول -->
                 <div id="productView">
                     <div class="modal-price-row">
                         <span>قیمت محصول:</span>
@@ -328,17 +170,10 @@
                     <button class="btn-add-cart" id="addToCartBtn">افزودن به سبد خرید</button>
                 </div>
 
-                <!-- اطلاعات مخصوص خدمات -->
                 <div id="serviceView" style="display:none;">
                     <div class="service-info-box">
-                        <div class="service-info-row">
-                            <span class="service-info-label">آدرس:</span>
-                            <span class="service-info-val" id="serviceAddress"></span>
-                        </div>
-                        <div class="service-info-row">
-                            <span class="service-info-label">تلفن:</span>
-                            <span class="service-info-val" id="servicePhone"></span>
-                        </div>
+                        <div class="service-info-row"><span class="service-info-label">آدرس:</span><span class="service-info-val" id="serviceAddress"></span></div>
+                        <div class="service-info-row"><span class="service-info-label">تلفن:</span><span class="service-info-val" id="servicePhone"></span></div>
                     </div>
                     <a href="#" id="callBtn" class="btn-add-cart btn-call">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
@@ -349,187 +184,9 @@
         </div>
     </div>
 
-    <!-- سیستم اعلان (Toast) -->
     <div id="toast" style="position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--gold); color:#000; padding:10px 20px; border-radius:20px; font-size:13px; font-weight:bold; opacity:0; pointer-events:none; transition:0.3s; z-index:100; box-shadow:0 5px 15px rgba(0,0,0,0.5);"></div>
 
-    <script>
-        let products = []; 
-        let services = [];
-        let cartCount = 0;
-        let currentCategory = 'all';
-        let searchQuery = '';
-
-        const productGrid = document.getElementById('productGrid');
-        const servicesContainer = document.getElementById('servicesContainer');
-
-        // لود کردن داده‌ها
-        async function fetchData() {
-            try {
-                const prodRes = await fetch('products.json');
-                products = await prodRes.json();
-                renderProducts();
-
-                const servRes = await fetch('services.json');
-                services = await servRes.json();
-                renderServices();
-            } catch (error) {
-                console.error('خطا در دریافت داده‌ها:', error);
-                productGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff5252;">خطا در بارگذاری اطلاعات.</div>`;
-            }
-        }
-
-        // رندر محصولات
-        function renderProducts() {
-            let filtered = products;
-            if (currentCategory !== 'all') filtered = filtered.filter(p => p.cat === currentCategory);
-            if (searchQuery.trim()) {
-                const q = searchQuery.trim().toLowerCase();
-                filtered = filtered.filter(p => p.name.toLowerCase().includes(q));
-            }
-
-            productGrid.innerHTML = filtered.map(p => {
-                let imgContent = p.image ? `<img src="${p.image}">` : `<span>${p.icon || '📦'}</span>`;
-                return `
-                <div class="product-card" onclick="openProductModal(${p.id})">
-                    <div class="product-img">
-                        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
-                        ${imgContent}
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">${p.name}</div>
-                        <div class="product-price">${p.price.toLocaleString('fa-IR')} <span>تومان</span></div>
-                    </div>
-                </div>
-                `;
-            }).join('');
-        }
-
-        // رندر خدمات محلی
-        function renderServices() {
-            servicesContainer.innerHTML = services.map(s => `
-                <div class="service-card" onclick="openServiceModal(${s.id})">
-                    <div class="service-icon">${s.icon || '🏪'}</div>
-                    <div class="service-name">${s.name}</div>
-                    <div class="service-type">${s.type}</div>
-                </div>
-            `).join('');
-        }
-
-        // رویدادها
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            searchQuery = e.target.value; renderProducts();
-        });
-        document.getElementById('categoriesContainer').addEventListener('click', (e) => {
-            const btn = e.target.closest('.cat-btn');
-            if (!btn) return;
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentCategory = btn.dataset.cat; renderProducts();
-        });
-
-        // مدیریت پنجره‌ها
-        const overlay = document.getElementById('modalOverlay');
-        const bottomSheet = document.getElementById('bottomSheet');
-        const productView = document.getElementById('productView');
-        const serviceView = document.getElementById('serviceView');
-
-        window.openProductModal = function(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-
-            productView.style.display = 'block';
-            serviceView.style.display = 'none';
-
-            const imgElement = document.getElementById('modalImage');
-            const iconElement = document.getElementById('modalIcon');
-
-            if (product.image) {
-                imgElement.src = product.image; imgElement.style.display = 'block'; iconElement.style.display = 'none';
-            } else {
-                imgElement.style.display = 'none'; iconElement.style.display = 'block'; iconElement.innerText = product.icon || '📦';
-            }
-
-            document.getElementById('modalTitle').innerText = product.name;
-            document.getElementById('modalDesc').innerText = product.desc || 'بدون توضیحات';
-            document.getElementById('modalPrice').innerText = product.price.toLocaleString('fa-IR') + ' تومان';
-
-            overlay.classList.add('active');
-            bottomSheet.classList.add('active');
-        }
-
-        window.openServiceModal = function(id) {
-            const service = services.find(s => s.id === id);
-            if (!service) return;
-
-            productView.style.display = 'none';
-            serviceView.style.display = 'block';
-
-            document.getElementById('modalIcon').style.display = 'block';
-            document.getElementById('modalImage').style.display = 'none';
-            document.getElementById('modalIcon').innerText = service.icon || '🏪';
-            
-            document.getElementById('modalTitle').innerText = service.name;
-            document.getElementById('modalDesc').innerText = `دسته‌بندی: ${service.type}`;
-            
-            document.getElementById('serviceAddress').innerText = service.address;
-            document.getElementById('servicePhone').innerText = service.phone;
-            document.getElementById('callBtn').href = `tel:${service.phone}`;
-
-            overlay.classList.add('active');
-            bottomSheet.classList.add('active');
-        }
-
-        function closeModal() {
-            overlay.classList.remove('active');
-            bottomSheet.classList.remove('active');
-        }
-        overlay.addEventListener('click', closeModal);
-
-        // سبد خرید
-        const cartBadge = document.getElementById('cartBadge');
-        document.getElementById('addToCartBtn').addEventListener('click', () => {
-            cartCount++; cartBadge.innerText = cartCount; cartBadge.classList.add('show');
-            const btn = document.getElementById('addToCartBtn');
-            btn.innerText = '✓ به سبد اضافه شد'; btn.style.background = 'var(--gold)';
-            setTimeout(() => { closeModal(); setTimeout(() => { btn.innerText = 'افزودن به سبد خرید'; btn.style.background = ''; }, 300); }, 800);
-        });
-
-        // منوی ناوبری پایین
-        function setActiveNav(id) {
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        }
-
-        window.scrollToTop = function() {
-            document.getElementById('scrollArea').scrollTo({ top: 0, behavior: 'smooth' });
-            setActiveNav('navHome');
-        }
-
-        window.scrollToCategories = function() {
-            const catSection = document.getElementById('categoriesContainer');
-            catSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            setActiveNav('navCats');
-        }
-
-        window.showToast = function(msg) {
-            const toast = document.getElementById('toast');
-            toast.innerText = msg;
-            toast.style.opacity = '1';
-            toast.style.transform = 'translateX(-50%) translateY(0)';
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(-50%) translateY(20px)';
-            }, 2500);
-        }
-
-        // شروع
-        (function init() {
-            if (window.Eitaa && window.Eitaa.WebApp) {
-                window.Eitaa.WebApp.ready();
-                if (!window.Eitaa.WebApp.isExpanded) window.Eitaa.WebApp.expand();
-            }
-            fetchData();
-        })();
-    </script>
+    <!-- فقط این یک خط برای اتصال به فایل جاوااسکریپت باقی مانده است -->
+    <script src="app.js"></script>
 </body>
 </html>
