@@ -3,193 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>استارتاپ من | صفحه رسمی</title>
+    <title>استارتاپ استعدادیابی | صفحه رسمی</title>
+    
+    <!-- فونت فارسی -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- فریم‌ورک Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- انیمیشن‌های AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- آیکون‌ها -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: {
+                        brand: '#38bdf8', // رنگ فیروزه‌ای
+                        dark: '#0f172a',  // سرمه‌ای تیره
+                        card: '#1e293b'   // کارت‌ها
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        :root {
-            --primary: #1e3a8a;
-            --text-dark: #1f2937;
-            --text-light: #4b5563;
-            --bg-light: #f9fafb;
-        }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
-            font-family: Tahoma, 'Vazirmatn', sans-serif;
-            line-height: 1.8;
-            color: var(--text-dark);
-            background-color: #ffffff;
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
         }
-
-        header {
-            background-color: #ffffff;
-            padding: 20px 5%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* افکت شیشه‌ای برای منو */
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
+        /* گرادیانت متن */
+        .text-gradient {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        .hero {
-            background-color: var(--bg-light);
-            padding: 80px 5%;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 60px 5%;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            color: var(--primary);
-            margin-bottom: 30px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .section-title::after {
-            content: '';
+        /* کانواس پس‌زمینه */
+        #particles-js {
             position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 60px;
-            height: 4px;
-            background-color: var(--primary);
-            border-radius: 2px;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 60px;
+        /* استایل برای کارت‌های سه بعدی */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
         }
-
-        @media (max-width: 768px) {
-            .grid-2 { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2rem; }
-        }
-
-        .card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0,0,0,0.05);
-        }
-
-        .card h3 { color: var(--text-dark); margin-bottom: 15px; }
-        .card p { color: var(--text-light); font-size: 0.95rem; }
-
-        footer {
-            background-color: var(--primary);
-            color: #ffffff;
-            text-align: center;
-            padding: 40px 5%;
-            margin-top: 40px;
-        }
-
-        footer a { color: #ffffff; text-decoration: none; margin: 0 10px; opacity: 0.8; transition: opacity 0.3s; }
-        footer a:hover { opacity: 1; }
-        footer p { margin-top: 20px; font-size: 0.9rem; opacity: 0.7; }
-
     </style>
 </head>
-<body>
+<body class="antialiased relative">
 
-    <header>
-        <div class="logo">استارتاپ من</div>
-    </header>
+    <!-- پس‌زمینه متحرک -->
+    <div id="particles-js"></div>
 
-    <section class="hero">
-        <h1>آینده را با هم می‌سازیم</h1>
-        <p>ما یک تیم جوان و متعهد هستیم که باور داریم هر نوجوان استعدادی منحصر به فرد دارد. پلتفرم ما با هدف کشف، پرورش و هدایت این استعدادها طراحی شده است.</p>
+    <!-- منوی بالا -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand to-indigo-500 flex items-center justify-center text-dark font-bold text-xl shadow-lg shadow-brand/30">
+                        <i class="fa-solid fa-rocket"></i>
+                    </div>
+                    <span class="font-bold text-2xl tracking-wider">استارتاپ من</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8 space-x-reverse">
+                        <a href="#home" class="hover:text-brand transition-colors">خانه</a>
+                        <a href="#about" class="hover:text-brand transition-colors">داستان ما</a>
+                        <a href="#stats" class="hover:text-brand transition-colors">دستاوردها</a>
+                        <a href="#team" class="hover:text-brand transition-colors">تیم ما</a>
+                        <a href="#contact" class="bg-brand text-dark px-6 py-2 rounded-lg font-bold hover:bg-white transition-colors shadow-lg shadow-brand/20">تماس با ما</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- بخش هدر (Hero) -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
+        <div class="text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1500">
+            <div class="inline-block px-4 py-1 rounded-full bg-brand/10 border border-brand/20 text-brand font-medium mb-6">
+                🚀 آینده استعدادیابی
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                ما استعدادهای <br>
+                <span class="text-gradient" id="typed-text"></span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                پلتفرم ما با استفاده از جدیدترین متدهای روانشناسی و تکنولوژی، مسیر درست رشد نوجوانان را کشف و هموار می‌کند.
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#about" class="bg-brand text-dark px-8 py-4 rounded-xl font-bold text-lg hover:bg-white transition-all shadow-xl shadow-brand/20 transform hover:-translate-y-1">
+                    بیشتر بدانید <i class="fa-solid fa-arrow-left mr-2"></i>
+                </a>
+            </div>
+        </div>
     </section>
 
-    <div class="container">
-        
-        <h2 class="section-title">داستان ما</h2>
-        <p style="margin-bottom: 60px; color: var(--text-light); font-size: 1.1rem; text-align: justify;">
-            پروژه ما از یک دغدغه ساده شروع شد: بسیاری از نوجوانان با استعداد، به دلیل عدم شناخت مسیر درست، استعدادهای خود را نادیده می‌گیرند. ما سیستمی طراحی کرده‌ایم که نوجوانان را در مسیر درست قرار می‌دهد. هدف ما فقط یک تست ساده نیست؛ ما می‌خواهیم همراه و راهنمای نوجوانان در مسیر رشدشان باشیم.
-        </p>
+    <!-- بخش داستان ما -->
+    <section id="about" class="py-24 bg-dark/50 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">داستان <span class="text-brand">ما</span></h2>
+                <div class="w-24 h-1 bg-brand mx-auto rounded-full mb-8"></div>
+                <p class="text-gray-400 max-w-3xl mx-auto text-lg leading-loose">
+                    پروژه ما از یک دغدغه ساده شروع شد: بسیاری از نوجوانان با استعداد، به دلیل عدم شناخت مسیر درست، استعدادهای خود را نادیده می‌گیرند. ما سیستمی طراحی کرده‌ایم که آن‌ها را در مسیر درست قرار می‌دهد. هدف ما فقط یک تست ساده نیست؛ ما همراه و راهنمای نوجوانان هستیم.
+                </p>
+            </div>
 
-        <h2 class="section-title">چشم‌انداز و ارزش‌ها</h2>
-        <div class="grid-2">
-            <div class="card">
-                <h3>🎯 ماموریت ما</h3>
-                <p>توانمندسازی نسل جدید با ایجاد بستری امن، علمی و جذاب برای کشف استعدادها و مهارت‌آموزی.</p>
-            </div>
-            <div class="card">
-                <h3>🛡️ اعتماد و امنیت</h3>
-                <p>حریم خصوصی کاربران برای ما خط قرمز است. تمام فرآیندهای ما بر اساس استانداردهای روانشناسی و امنیت اطلاعات طراحی شده‌اند.</p>
-            </div>
-            <div class="card">
-                <h3>💡 نوآوری</h3>
-                <p>استفاده از روش‌های نوین و تکنولوژی‌های روز دنیا برای ایجاد یک تجربه کاربری متفاوت و موثر.</p>
-            </div>
-            <div class="card">
-                <h3>🤝 همکاری با والدین</h3>
-                <p>ما معتقدیم موفقیت نوجوان در گرو همراهی خانواده است. این پلتفرم پلی است بین استعداد نوجوان و حمایت والدین.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- کارت ۱ -->
+                <div class="tilt-card bg-card p-8 rounded-2xl border border-white/5 hover:border-brand/30 transition-colors" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 rounded-xl bg-brand/10 flex items-center justify-center text-brand text-2xl mb-6">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">ماموریت ما</h3>
+                    <p class="text-gray-400 leading-relaxed">توانمندسازی نسل جدید با ایجاد بستری امن، علمی و جذاب برای کشف استعدادها و مهارت‌آموزی.</p>
+                </div>
+                <!-- کارت ۲ -->
+                <div class="tilt-card bg-card p-8 rounded-2xl border border-white/5 hover:border-brand/30 transition-colors" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 text-2xl mb-6">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">اعتماد و امنیت</h3>
+                    <p class="text-gray-400 leading-relaxed">حریم خصوصی کاربران برای ما خط قرمز است. تمام فرآیندها بر اساس استانداردهای روانشناسی و امنیت اطلاعات طراحی شده‌اند.</p>
+                </div>
+                <!-- کارت ۳ -->
+                <div class="tilt-card bg-card p-8 rounded-2xl border border-white/5 hover:border-brand/30 transition-colors" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 text-2xl mb-6">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">نوآوری</h3>
+                    <p class="text-gray-400 leading-relaxed">استفاده از روش‌های نوین و تکنولوژی‌های روز دنیا برای ایجاد یک تجربه کاربری متفاوت و موثر.</p>
+                </div>
             </div>
         </div>
+    </section>
 
-        <h2 class="section-title">تیم ما</h2>
-        <div class="grid-2">
-            <div class="card" style="text-align: center;">
-                <img src="https://via.placeholder.com/100" alt="عکس بنیان‌گذار" style="border-radius: 50%; width: 100px; height: 100px; margin-bottom: 15px;">
-                <h3>[نام و نام خانوادگی شما]</h3>
-                <p style="color: var(--primary); font-weight: bold; margin-bottom: 10px;">بنیان‌گذار و مدیرعامل</p>
-                <p>توضیح کوتاهی درباره سابقه، تحصیلات و انگیزه خودتان برای شروع این پروژه.</p>
-            </div>
-            <div class="card" style="text-align: center;">
-                <img src="https://via.placeholder.com/100" alt="عضو تیم" style="border-radius: 50%; width: 100px; height: 100px; margin-bottom: 15px;">
-                <h3>[نام عضو تیم]</h3>
-                <p style="color: var(--primary); font-weight: bold; margin-bottom: 10px;">مدیر فنی / مشاور</p>
-                <p>توضیح کوتاهی درباره سابقه و تخصص این عضو از تیم.</p>
+    <!-- بخش آمار و نمودار -->
+    <section id="stats" class="py-24 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- نمودار -->
+                <div data-aos="zoom-in" data-aos-duration="1000" class="relative p-6 bg-card rounded-3xl border border-white/5 shadow-2xl">
+                    <h3 class="text-xl font-bold mb-6 text-center">تحلیل هوشمند استعدادها</h3>
+                    <canvas id="myChart"></canvas>
+                </div>
+
+                <!-- آمار -->
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-8">اعداد <span class="text-brand">نمی‌گویند!</span></h2>
+                    <p class="text-gray-400 mb-10 text-lg">اعتماد شما به ما باعث شده تا هر روز رشد کنیم.</p>
+                    
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="bg-card p-6 rounded-2xl border border-white/5 text-center">
+                            <div class="text-4xl font-black text-brand mb-2 counter" data-target="1500">0</div>
+                            <div class="text-gray-400">نوجوان فعال</div>
+                        </div>
+                        <div class="bg-card p-6 rounded-2xl border border-white/5 text-center">
+                            <div class="text-4xl font-black text-indigo-400 mb-2 counter" data-target="50">0</div>
+                            <div class="text-gray-400">مشاور متخصص</div>
+                        </div>
+                        <div class="bg-card p-6 rounded-2xl border border-white/5 text-center">
+                            <div class="text-4xl font-black text-purple-400 mb-2 counter" data-target="98">0</div>
+                            <div class="text-gray-400">درصد رضایت</div>
+                        </div>
+                        <div class="bg-card p-6 rounded-2xl border border-white/5 text-center">
+                            <div class="text-4xl font-black text-pink-400 mb-2 counter" data-target="10">0</div>
+                            <div class="text-gray-400">جوایز استارتاپی</div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </section>
 
-    </div>
+    <!-- بخش تیم -->
+    <section id="team" class="py-24 bg-dark/50 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">مغزهای متفکر <span class="text-brand">پشت پروژه</span></h2>
+                <div class="w-24 h-1 bg-brand mx-auto rounded-full mb-8"></div>
+            </div>
 
-    <footer>
-        <h2>ارتباط با ما</h2>
-        <p style="margin: 15px 0;">برای همکاری، سرمایه‌گذاری یا هرگونه سوال با ما در تماس باشید:</p>
-        <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 20px;">info@yourdomain.com</p>
-        <div>
-            <a href="#">لینکدین</a> | 
-            <a href="#">توییتر</a> | 
-            <a href="#">اینستاگرام</a>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                <!-- عضو ۱ -->
+                <div class="tilt-card bg-card rounded-3xl p-8 border border-white/5 text-center relative overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="بنیان‌گذار" class="w-32 h-32 rounded-full mx-auto mb-6 bg-slate-800 border-4 border-brand/30 relative z-10">
+                    <h3 class="text-2xl font-bold mb-2 relative z-10">[نام شما]</h3>
+                    <p class="text-brand font-medium mb-4 relative z-10">بنیان‌گذار و مدیرعامل</p>
+                    <p class="text-gray-400 text-sm leading-relaxed relative z-10">عاشق تکنولوژی و آموزش. اینجا بنویسید چرا این پروژه رو شروع کردید و چه دیدگاهی دارید.</p>
+                    <div class="flex justify-center gap-4 mt-6 relative z-10">
+                        <a href="#" class="text-gray-400 hover:text-brand transition"><i class="fa-brands fa-linkedin text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-brand transition"><i class="fa-brands fa-twitter text-xl"></i></a>
+                    </div>
+                </div>
+                <!-- عضو ۲ -->
+                <div class="tilt-card bg-card rounded-3xl p-8 border border-white/5 text-center relative overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute inset-0 bg-gradient-to-t from-indigo-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" alt="مدیر فنی" class="w-32 h-32 rounded-full mx-auto mb-6 bg-slate-800 border-4 border-indigo-500/30 relative z-10">
+                    <h3 class="text-2xl font-bold mb-2 relative z-10">[نام همکار شما]</h3>
+                    <p class="text-indigo-400 font-medium mb-4 relative z-10">مدیر فنی / مشاور</p>
+                    <p class="text-gray-400 text-sm leading-relaxed relative z-10">توضیح کوتاهی درباره سابقه و تخصص این عضو از تیم. (مثلا: کارشناس ارشد روانشناسی تربیتی)</p>
+                    <div class="flex justify-center gap-4 mt-6 relative z-10">
+                        <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><i class="fa-brands fa-linkedin text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-indigo-400 transition"><i class="fa-brands fa-github text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p>تمامی حقوق برای استارتاپ [نام استارتاپ] محفوظ است. © ۱۴۰۳</p>
+    </section>
+
+    <!-- فوتر -->
+    <footer id="contact" class="bg-black/50 py-16 relative z-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">برای همکاری، سرمایه‌گذاری یا هرگونه سوال با ما در تماس باشید</h2>
+            <a href="mailto:info@yourdomain.com" class="inline-block bg-brand text-dark px-8 py-3 rounded-xl font-bold text-lg hover:bg-white transition-all shadow-xl shadow-brand/20 mb-10">
+                <i class="fa-solid fa-envelope mr-2"></i> ارسال ایمیل
+            </a>
+            <p class="text-gray-500 mb-4">تمامی حقوق برای استارتاپ [نام استارتاپ] محفوظ است. © ۱۴۰۳</p>
+        </div>
     </footer>
 
+    <!-- ===== کدهای جاوااسکریپت (اینجا جادو اتفاق می‌افتد) ===== -->
+    
+    <!-- ۱. کتابخانه ذرات متحرک -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <!-- ۲. کتابخانه انیمیشن اسکرول -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- ۳. کتابخانه تایپ زنده -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    
+    <!-- ۴. کتابخانه نمودار -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- ۵. کتابخانه افکت سه‌بعدی -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+
+    <!-- ۶. اسکریپت‌های سفارشی ما -->
+    <script>
+        // --- تنظیمات پس‌زمینه متحرک ---
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#38bdf8" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": false },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#38bdf8", "opacity": 0.2, "width": 1 },
+                "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } }, "push": { "particles_nb": 4 } }
+            },
+            "retina_detect": true
+        });
+
+        // --- انیمیشن اسکرول ---
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100,
+        });
+
+        // --- افکت تایپ ---
+        var typed = new Typed('#typed-text', {
+            strings: ['کشف می‌کنیم.', 'پرورش می‌دهیم.', 'هدایت می‌کنیم.', 'می‌سازیم.'],
+            typeSpeed: 70,
+            backSpeed: 40,
+            loop: true,
+            backDelay: 2000
+        });
+
+        // --- افکت سه بعدی روی کارت‌ها ---
+        VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+        });
+
+        // --- شمارنده اعداد ---
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // سرعت شمارش (هرچه کمتر، سریع‌تر)
+
+        const startCounting = (counter) => {
+            const target = +counter.getAttribute('data-target');
+            const updateCount = () => {
+                const count = +counter.innerText;
+                const inc = target / speed;
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(updateCount, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
+        };
+
+        // فعال کردن شمارنده فقط زمانی که به دید کاربر می‌رسد
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startCounting(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => observer.observe(counter));
+
+        // --- رسم نمودار (Chart.js) ---
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['استعداد فنی', 'خلاقیت', 'هوش هیجانی', 'مهارت‌های اجتماعی', 'تحلیل‌گری'],
+                datasets: [{
+                    label: 'توزیع استعدادها در پلتفرم',
+                    data: [85, 90, 75, 80, 95],
+                    backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                    borderColor: '#38bdf8',
+                    pointBackgroundColor: '#818cf8',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#818cf8',
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { labels: { color: '#f8fafc', font: { family: 'Vazirmatn' } } }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        pointLabels: { color: '#cbd5e1', font: { family: 'Vazirmatn', size: 12 } },
+                        ticks: { display: false, min: 0, max: 100 }
+                    }
+                }
+            }
+        });
+
+        // --- افکت تغییر رنگ منو هنگام اسکرول ---
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg', 'shadow-black/50');
+            } else {
+                navbar.classList.remove('shadow-lg', 'shadow-black/50');
+            }
+        });
+    </script>
 </body>
 </html>
