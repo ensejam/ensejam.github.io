@@ -2,334 +2,247 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>استارتاپ استعدادیابی | مسیر روشن آینده</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
-                    colors: {
-                        brand: '#2563eb',      
-                        accent: '#f59e0b',     
-                        surface: '#f8fafc',    
-                        darkText: '#0f172a',   
-                        grayText: '#475569'    
-                    }
-                }
-            }
-        }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>انسجام من | بازارچه و کانال</title>
+
+    <!-- ۱. اتصال به کیت توسعه ایتا (الزامی برای برنامک) -->
+    <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
 
     <style>
-        html.lenis { height: auto; }
-        .lenis.lenis-smooth { scroll-behavior: auto; }
-        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-        .lenis.lenis-stopped { overflow: hidden; }
+        /* ۲. استفاده از متغیرهای تم ایتا برای هماهنگی خودکار با حالت تاریک/روشن */
+        :root {
+            --bg: var(--tg-theme-bg-color, #ffffff);
+            --text: var(--tg-theme-text-color, #1a1a1a);
+            --hint: var(--tg-theme-hint-color, #707579);
+            --button: var(--tg-theme-button-color, #2e7d32); /* رنگ سبز به عنوان رنگ اصلی برند */
+            --button-text: var(--tg-theme-button-text-color, #ffffff);
+            --card-bg: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            --viewport-height: var(--tg-viewport-stable-height, 100vh);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
-            background-color: #f8fafc;
-            color: #0f172a;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif; /* فونت فارسی */
+            background-color: var(--bg);
+            color: var(--text);
+            height: var(--viewport-height);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+            transition: background-color 0.3s, color 0.3s;
+            overflow: hidden; /* جلوگیری از اسکرول ناخواسته در صفحه اول */
         }
 
-        .bg-grid-light {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-            mask-image: radial-gradient(ellipse at center, black 40%, transparent 100%);
+        /* --- بخش بالا: برند و معرفی --- */
+        .brand-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 8vh; /* فاصله از بالا برای تنفس بصری */
         }
 
-        .glow-card {
-            position: relative;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
             border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px -5px rgba(0,0,0,0.03);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            background: linear-gradient(135deg, #2e7d32, #66bb6a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.25);
         }
-        .glow-card:hover {
-            box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.1);
-            transform: translateY(-2px);
+
+        .brand-title {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
         }
-        .glow-card::before {
-            content: "";
-            position: absolute;
-            height: 100%;
+
+        .brand-tagline {
+            font-size: 16px;
+            color: var(--hint);
+            line-height: 1.7;
+            max-width: 320px;
+            margin: 0 auto 32px;
+        }
+
+        .intro-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
             width: 100%;
-            left: 0;
-            top: 0;
-            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(37, 99, 235, 0.05), transparent 40%);
-            opacity: 0;
-            transition: opacity 0.5s;
-            z-index: 1;
-            pointer-events: none;
-        }
-        .glow-card:hover::before { opacity: 1; }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            line-height: 1.3;
-            letter-spacing: -0.02em;
+            max-width: 400px;
+            text-align: right;
+            margin-bottom: 24px;
         }
 
-        .btn-magnetic {
-            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        .intro-card h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
         }
 
-        /* استایل برای عکس بنیان گذار */
-        .founder-img {
-            box-shadow: 0 0 0 4px #fff, 0 0 0 6px #e2e8f0;
-            object-fit: cover;
+        .intro-card p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--hint);
+        }
+
+        /* --- بخش پایین: دکمه اصلی ورود به بازارچه --- */
+        .action-section {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px;
+            background-color: var(--button);
+            color: var(--button-text);
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            text-decoration: none;
+        }
+
+        .btn-primary:active {
+            opacity: 0.85;
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            color: var(--hint);
+            border: 1.5px solid var(--card-bg);
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:active {
+            background: var(--card-bg);
+        }
+
+        /* آیکون‌های ساده با CSS (بدون نیاز به فایل خارجی) */
+        .icon-arrow {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-top: 2.5px solid currentColor;
+            border-right: 2.5px solid currentColor;
+            transform: rotate(45deg);
+        }
+
+        /* حالت تاریک دستی (در صورت نیاز) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --button: #4caf50;
+            }
         }
     </style>
 </head>
-<body class="antialiased selection:bg-brand selection:text-white">
+<body>
 
-    <div class="fixed inset-0 bg-grid-light z-0 pointer-events-none"></div>
+    <!-- بخش معرفی -->
+    <div class="brand-section">
+        <div class="logo-placeholder">ان</div>
+        <h1 class="brand-title">انسجام من</h1>
+        <p class="brand-tagline">اکوسیستمی برای توانمندسازی اقتصادی و اطلاع‌رسانی محلی</p>
 
-    <!-- منوی بالا -->
-    <nav class="fixed top-0 w-full z-50 border-b border-gray-200 bg-white/80 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2 font-bold text-2xl tracking-tighter text-darkText">
-                <div class="w-8 h-8 bg-brand rounded-lg transform rotate-45 flex items-center justify-center">
-                    <div class="w-3 h-3 bg-white rounded-full"></div>
-                </div>
-                [نام استارتاپ]
-            </div>
-            <div class="hidden md:flex gap-8 text-sm font-bold text-grayText">
-                <a href="#necessity" class="hover:text-brand transition-colors">چرا استعدادیابی؟</a>
-                <a href="#founder" class="hover:text-brand transition-colors">داستان ما</a>
-                <a href="#interviews" class="hover:text-brand transition-colors">مصاحبه‌ها</a>
-            </div>
-            <a href="#" class="text-sm font-bold bg-brand text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-colors shadow-lg shadow-brand/20">شروع ارزیابی</a>
-        </div>
-    </nav>
-
-    <!-- بخش هدر (Hero) -->
-    <section class="relative min-h-[90vh] flex flex-col justify-center items-center px-6 pt-20 z-10">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="gsap-hero-el inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-blue-100 bg-blue-50 text-sm font-bold text-brand">
-                <span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
-                پلتفرم تخصصی استعدادیابی نوجوانان
-            </div>
-            <h1 class="hero-title font-black mb-8 text-darkText gsap-hero-el">
-                آینده فرزند شما،<br>
-                <span class="text-brand">فقط یک نمره نیست.</span>
-            </h1>
-            <p class="text-lg md:text-xl text-grayText max-w-2xl mx-auto mb-10 gsap-hero-el leading-relaxed font-medium">
-                هر نوجوان یک دنیای منحصر به فرد از استعدادهاست. ما اینجاییم تا به والدین کمک کنیم مسیر درست را کشف کنند و با اطمینان، آینده فرزندشان را بسازند.
+        <div class="intro-card">
+            <h2>یک برنامک، دو کارکرد</h2>
+            <p>
+                از یک طرف، ویترین بازارچه اقتصادی ما برای معرفی و دسترسی به محصولات و خدمات محلی است.
+                از طرف دیگر، پلی است به کانال «انسجام من» برای اطلاع از آخرین اخبار، فرصت‌ها و رویدادها.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center gsap-hero-el">
-                <a href="#" class="btn-magnetic bg-brand text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-700 transition-colors shadow-xl shadow-brand/30">شروع مسیر استعدادیابی</a>
-                <a href="#founder" class="btn-magnetic bg-white border border-gray-300 text-darkText px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-50 transition-colors">آشنایی با بنیان‌گذار</a>
-            </div>
         </div>
-    </section>
+    </div>
 
-    <!-- بخش ضرورت استعدادیابی (Bento Grid) -->
-    <section id="necessity" class="py-24 px-6 relative z-10 bg-white border-y border-gray-100">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-16 md:text-center max-w-3xl mx-auto">
-                <h2 class="text-3xl md:text-5xl font-black mb-6 text-darkText gsap-fade-up">چرا استعدادیابی یک ضرورت است؟</h2>
-                <p class="text-grayText text-lg gsap-fade-up leading-relaxed">سال‌هاست که سیستم آموزشی همه را در یک قالب می‌بیند. اما هزینه نادیده گرفتن استعدادهای نوجوانان چیست؟</p>
-            </div>
+    <!-- بخش اقدام (CTA) -->
+    <div class="action-section">
+        <!-- دکمه اصلی: ورود به بازارچه -->
+        <button class="btn-primary" id="enterMarketBtn">
+            ورود به بازارچه
+            <span class="icon-arrow"></span>
+        </button>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- کارت بزرگ ۱ -->
-                <div class="glow-card md:col-span-2 p-8 md:p-12 group gsap-fade-up">
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center mb-6 text-red-500">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4 text-darkText">هزینه فرصت‌های از دست رفته</h3>
-                        <p class="text-grayText text-lg leading-relaxed">وقتی نوجوانی استعدادش را نمی‌شناسد، سال‌ها در مسیری حرکت می‌کند که به او تعلق ندارد. این یعنی اتلاف عمر، انرژی و انگیزه. ما اینجاییم تا این مسیر را کوتاه کنیم.</p>
-                    </div>
-                </div>
-
-                <!-- کارت ۲ -->
-                <div class="glow-card p-8 group gsap-fade-up">
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center mb-6 text-accent">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-darkText">اضطراب و سرخوردگی</h3>
-                        <p class="text-grayText text-sm leading-relaxed">مقایسه شدن با دیگران و فشار کنکور، بسیاری از استعدادهای درخشان را افسرده می‌کند. شناخت زودهنگام استعداد، اعتماد به نفس را نجات می‌دهد.</p>
-                    </div>
-                </div>
-
-                <!-- کارت ۳ -->
-                <div class="glow-card p-8 group gsap-fade-up">
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center mb-6 text-green-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-darkText">آرامش والدین</h3>
-                        <p class="text-grayText text-sm leading-relaxed">دیگر نگران آینده فرزندتان نباشید. وقتی مسیر مشخص باشد، والدین با خیال راحت از فرزندشان حمایت می‌کنند.</p>
-                    </div>
-                </div>
-
-                <!-- کارت بزرگ ۲ -->
-                <div class="glow-card md:col-span-2 p-8 md:p-12 group gsap-fade-up flex flex-col justify-center">
-                    <div class="relative z-10">
-                        <h3 class="text-2xl font-bold mb-3 text-darkText">علم، نه حدس و گمان.</h3>
-                        <p class="text-grayText text-lg leading-relaxed">ما با استفاده از آزمون‌های استاندارد روانشناسی و هوش مصنوعی، لایه‌های پنهان شخصیت نوجوان را کشف می‌کنیم. این یک ارزیابی دقیق علمی است.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- بخش داستان من / بنیان‌گذار (مهم‌ترین بخش اعتمادسازی) -->
-    <section id="founder" class="py-24 px-6 relative z-10 bg-surface">
-        <div class="max-w-6xl mx-auto">
-            <div class="glow-card p-8 md:p-16 flex flex-col md:flex-row gap-12 items-center gsap-fade-up">
-                <!-- عکس شما -->
-                <div class="w-full md:w-1/3 flex flex-col items-center">
-                    <!-- به جای آدرس زیر، لینک عکس واقعی خودت رو بذار -->
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Founder" alt="بنیان‌گذار" class="w-48 h-48 md:w-64 md:h-64 rounded-full founder-img bg-slate-200">
-                    <h3 class="text-2xl font-black mt-6 text-darkText">[نام و نام خانوادگی شما]</h3>
-                    <p class="text-brand font-bold text-lg mt-1">بنیان‌گذار و مدیرعامل</p>
-                </div>
-                
-                <!-- متن داستان شما -->
-                <div class="w-full md:w-2/3 relative z-10">
-                    <div class="text-4xl text-blue-100 absolute -top-8 -right-4 font-serif">"</div>
-                    <h2 class="text-2xl font-black mb-6 text-darkText">چرا این مسیر را انتخاب کردم؟</h2>
-                    <div class="text-grayText text-lg leading-loose space-y-4 text-justify">
-                        <p>
-                            [اینجا داستان شخصی خودت رو بنویس. مثلا: من در طول سال‌هایی که با نوجوانان کار می‌کردم، دیدم که چطور بسیاری از آن‌ها به خاطر عدم شناخت استعدادهایشان، در مسیرهایی قدم می‌گذارند که هیچ‌وقت به آن علاقه نداشتند...]
-                        </p>
-                        <p>
-                            [ادامه بده: اهمیت این موضوع برای من به حدی بود که تصمیم گرفتم یک سیستم علمی بسازم تا دیگر هیچ نوجوانی به خاطر ناآگاهی، آینده‌اش را از دست ندهد. من باور دارم که...]
-                        </p>
-                        <p class="font-bold text-darkText pt-4 border-t border-gray-200">
-                            این پلتفرم حاصل سال‌ها دغدغه من برای آینده‌ی روشن‌تر نوجوانان سرزمینم است.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- بخش مصاحبه‌ها و نظرات -->
-    <section id="interviews" class="py-24 px-6 border-t border-gray-200 relative z-10 bg-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-16 text-center">
-                <h2 class="text-3xl md:text-5xl font-black mb-4 text-darkText gsap-fade-up">از زبان متخصصان و والدین</h2>
-                <p class="text-grayText text-lg gsap-fade-up">اعتماد شما، بزرگترین سرمایه ماست.</p>
-            </div>
-
-            <!-- اسلایدر یا گرید مصاحبه‌ها -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <!-- مصاحبه ۱ -->
-                <div class="glow-card p-8 group gsap-fade-up">
-                    <div class="relative z-10 flex flex-col h-full">
-                        <svg class="w-10 h-10 text-gray-200 mb-6" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-                        <p class="text-grayText italic mb-6 leading-relaxed">[اینجا متن مصاحبه با یک متخصص (مثلا روانشناس یا مشاور تحصیلی) رو بذار. مثلا: "من سال‌هاست که با نوجوانان کار می‌کنم. ابزاری که این تیم ساخته، دقیقاً همون چیزیه که سیستم آموزشی ما کم داشت..."]</p>
-                        <div class="mt-auto flex items-center gap-4 border-t border-gray-100 pt-4">
-                            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-400">د</div>
-                            <div>
-                                <h4 class="font-bold text-darkText text-sm">دکتر [نام متخصص]</h4>
-                                <p class="text-xs text-brand">روانشناس تربیتی</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- مصاحبه ۲ -->
-                <div class="glow-card p-8 group gsap-fade-up">
-                    <div class="relative z-10 flex flex-col h-full">
-                        <svg class="w-10 h-10 text-gray-200 mb-6" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-                        <p class="text-grayText italic mb-6 leading-relaxed">[اینجا نظر یک والد رو بذار. مثلا: "همیشه فکر می‌کردم پسرم فقط بلده بازی کنه. بعد از ارزیابی، فهمیدم استعداد فوق‌العاده‌ای توی طراحی سه بعدی داره. حالا با خیال راحت داره مسیرش رو ادامه می‌ده..."]</p>
-                        <div class="mt-auto flex items-center gap-4 border-t border-gray-100 pt-4">
-                            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-400">و</div>
-                            <div>
-                                <h4 class="font-bold text-darkText text-sm">[نام والد]</h4>
-                                <p class="text-xs text-brand">مادر یک نوجوان ۱۵ ساله</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- مصاحبه ۳ (جای خالی برای مصاحبه‌های بعدی) -->
-                <div class="glow-card p-8 group bg-blue-50 border-blue-100 flex flex-col items-center justify-center text-center gsap-fade-up cursor-pointer hover:bg-blue-100 transition-colors">
-                    <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-brand mb-4 shadow-sm">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                    </div>
-                    <h3 class="font-bold text-darkText text-lg mb-2">مصاحبه‌های بیشتر</h3>
-                    <p class="text-sm text-grayText">به زودی نظرات و مصاحبه‌های بیشتری از متخصصان و والدین در این بخش منتشر می‌شود.</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- فوتر -->
-    <footer class="py-12 border-t border-gray-200 bg-surface text-center relative z-10">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-2xl font-bold mb-4 text-darkText">آماده‌اید آینده فرزندتان را روشن کنید؟</h2>
-            <a href="#" class="inline-block bg-brand text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-700 transition-colors shadow-lg shadow-brand/20 mb-8">شروع کنید</a>
-            <p class="text-grayText text-sm">تمامی حقوق برای استارتاپ [نام استارتاپ] محفوظ است. © ۱۴۰۳</p>
-        </div>
-    </footer>
-
-    <!-- اسکریپت‌ها -->
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        <!-- دکمه ثانویه: دسترسی به کانال (اختیاری) -->
+        <a href="https://eitaa.com/enshejam_man" target="_blank" class="btn-secondary" id="channelLink">
+            مشاهده کانال «انسجام من»
+        </a>
+    </div>
 
     <script>
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'rtl',
-            smooth: true,
-        });
+        // --- ۳. مقداردهی اولیه برنامک در محیط ایتا ---
+        (function initEitaaApp() {
+            // بررسی می‌کنیم که آیا در محیط ایتا هستیم یا خیر
+            if (window.Eitaa && window.Eitaa.WebApp) {
+                const WebApp = window.Eitaa.WebApp;
 
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-        lenis.on('scroll', ScrollTrigger.update);
+                // به ایتا اطلاع می‌دهیم که برنامک آماده نمایش است (لایه لودینگ برداشته می‌شود)
+                WebApp.ready();
 
-        gsap.from(".gsap-hero-el", {
-            y: 30, opacity: 0, duration: 1, stagger: 0.15, ease: "power3.out"
-        });
+                // برنامک را تا تمام ارتفاع ممکن گسترش می‌دهیم تا فضای بیشتری داشته باشیم
+                if (!WebApp.isExpanded) {
+                    WebApp.expand();
+                }
 
-        gsap.utils.toArray(".gsap-fade-up").forEach((element) => {
-            gsap.from(element, {
-                scrollTrigger: { trigger: element, start: "top 85%" },
-                y: 40, opacity: 0, duration: 0.8, ease: "power3.out"
-            });
-        });
+                // (اختیاری) اگر نام کاربر را داریم، می‌توانیم در آینده شخصی‌سازی کنیم.
+                // const user = WebApp.initDataUnsafe?.user;
+                // if (user && user.first_name) {
+                //     console.log('کاربر:', user.first_name);
+                // }
+            }
+        })();
 
-        document.querySelectorAll('.glow-card').forEach(card => {
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-            });
-        });
+        // --- ۴. مدیریت کلیک روی دکمه ورود به بازارچه ---
+        document.getElementById('enterMarketBtn').addEventListener('click', function() {
+            // ⚠️ اینجا آدرس صفحه بازارچه خود را قرار بده.
+            // این می‌تواند یک صفحه دیگر در همان پروژه گیت‌هاب باشد (مثلاً market.html)
+            // یا یک آدرس کامل از یک سرویس دیگر.
+            const marketUrl = 'market.html'; // <-- این خط را با آدرس واقعی بازارچه جایگزین کن
 
-        document.querySelectorAll('.btn-magnetic').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0px, 0px)';
-            });
+            // هدایت کاربر به صفحه بازارچه
+            window.location.href = marketUrl;
+
+            // اگر ترجیح می‌دهی بازارچه در یک تب جدید باز شود (نه توصیه‌شده در WebView):
+            // window.open(marketUrl, '_blank');
         });
     </script>
 </body>
