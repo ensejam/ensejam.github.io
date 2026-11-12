@@ -212,7 +212,18 @@
             justify-content: center;
             font-size: 40px;
             position: relative;
+            overflow: hidden;
         }
+        
+        /* استایل عکس محصولات */
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            inset: 0;
+        }
+
         .product-badge {
             position: absolute;
             top: 8px;
@@ -223,6 +234,7 @@
             font-weight: bold;
             padding: 4px 8px;
             border-radius: 10px;
+            z-index: 2; /* بالای عکس قرار بگیرد */
         }
 
         .product-info { padding: 12px; }
@@ -293,15 +305,23 @@
         }
 
         .modal-icon {
-            width: 80px;
-            height: 80px;
+            width: 100%;
+            height: 180px;
             background: rgba(0, 191, 165, 0.1);
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 60px;
             margin: 0 auto 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .modal-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .modal-title { font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 8px; }
@@ -371,7 +391,6 @@
             </div>
 
             <h3 class="section-title">محصولات</h3>
-            <!-- محصولات از اینجا به بعد توسط JS پر می‌شوند -->
             <div class="product-grid" id="productGrid"></div>
         </div>
 
@@ -393,7 +412,11 @@
         <div class="modal-overlay" id="modalOverlay"></div>
         <div class="bottom-sheet" id="bottomSheet">
             <div class="drag-handle"></div>
-            <div class="modal-icon" id="modalIcon">📦</div>
+            <!-- مدال عکس دار شد -->
+            <div class="modal-icon" id="modalIconContainer">
+                <span id="modalIcon">📦</span>
+                <img id="modalImage" src="" alt="" style="display:none;">
+            </div>
             <h2 class="modal-title" id="modalTitle">نام محصول</h2>
             <p class="modal-desc" id="modalDesc">توضیحات محصول...</p>
             
@@ -407,28 +430,27 @@
     </div>
 
     <script>
-        // --- ۱. متغیرها ---
-        let products = []; // آرایه خالی که از فایل JSON پر می‌شود
+        let products = []; 
         let cartCount = 0;
         let currentCategory = 'all';
         let searchQuery = '';
 
         const productGrid = document.getElementById('productGrid');
 
-        // --- ۲. دریافت اطلاعات از فایل products.json ---
+        // دریافت محصولات
         async function fetchProducts() {
             try {
                 const response = await fetch('products.json');
                 if (!response.ok) throw new Error('خطا در بارگذاری فایل');
                 products = await response.json();
-                renderProducts(); // وقتی اطلاعات آمد، صفحه را رندر کن
+                renderProducts();
             } catch (error) {
                 console.error(error);
                 productGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff5252;">خطا در بارگذاری محصولات. لطفاً صفحه را رفرش کنید.</div>`;
             }
         }
 
-        // --- ۳. نمایش محصولات ---
+        // نمایش محصولات (با پشتیبانی از عکس)
         function renderProducts() {
             let filtered = products;
 
@@ -445,21 +467,26 @@
                 return;
             }
 
-            productGrid.innerHTML = filtered.map(p => `
+            productGrid.innerHTML = filtered.map(p => {
+                // اگر عکس داشت عکس رو نشون بده، وگرنه ایموجی
+                let imgContent = p.image ? `<img src="${p.image}" alt="${p.name}">` : `<span>${p.icon || '📦'}</span>`;
+                
+                return `
                 <div class="product-card" onclick="openModal(${p.id})">
                     <div class="product-img">
                         ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
-                        <span>${p.icon || '📦'}</span>
+                        ${imgContent}
                     </div>
                     <div class="product-info">
                         <div class="product-name">${p.name}</div>
                         <div class="product-price">${p.price.toLocaleString('fa-IR')} <span>تومان</span></div>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        // --- ۴. رویدادها (جستجو و دسته‌بندی) ---
+        // رویدادها
         document.getElementById('searchInput').addEventListener('input', (e) => {
             searchQuery = e.target.value;
             renderProducts();
@@ -474,7 +501,7 @@
             renderProducts();
         });
 
-        // --- ۵. پنجره جزئیات محصول ---
+        // پنجره جزئیات (با پشتیبانی از عکس)
         const overlay = document.getElementById('modalOverlay');
         const bottomSheet = document.getElementById('bottomSheet');
 
@@ -482,7 +509,19 @@
             const product = products.find(p => p.id === id);
             if (!product) return;
 
-            document.getElementById('modalIcon').innerText = product.icon || '📦';
+            const imgElement = document.getElementById('modalImage');
+            const iconElement = document.getElementById('modalIcon');
+
+            if (product.image) {
+                imgElement.src = product.image;
+                imgElement.style.display = 'block';
+                iconElement.style.display = 'none';
+            } else {
+                imgElement.style.display = 'none';
+                iconElement.style.display = 'block';
+                iconElement.innerText = product.icon || '📦';
+            }
+
             document.getElementById('modalTitle').innerText = product.name;
             document.getElementById('modalDesc').innerText = product.desc || 'بدون توضیحات';
             document.getElementById('modalPrice').innerText = product.price.toLocaleString('fa-IR') + ' تومان';
@@ -497,7 +536,7 @@
         }
         overlay.addEventListener('click', closeModal);
 
-        // --- ۶. سبد خرید ---
+        // سبد خرید
         const cartBadge = document.getElementById('cartBadge');
         document.getElementById('addToCartBtn').addEventListener('click', () => {
             cartCount++;
@@ -517,13 +556,13 @@
             }, 800);
         });
 
-        // --- ۷. شروع به کار ---
+        // شروع
         (function init() {
             if (window.Eitaa && window.Eitaa.WebApp) {
                 window.Eitaa.WebApp.ready();
                 if (!window.Eitaa.WebApp.isExpanded) window.Eitaa.WebApp.expand();
             }
-            fetchProducts(); // این تابع جایگزین کدهای ثابت قبلی شده است
+            fetchProducts();
         })();
     </script>
 </body>
