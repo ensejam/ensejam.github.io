@@ -23,6 +23,19 @@
     </style>
 </head>
 <body>
+
+    <!-- کدهای امنیتی اینجا قرار می‌گیرند -->
+    <script>
+        // ⚠️ رمز عبور پنل مدیریت را اینجا تغییر دهید
+        const ADMIN_PASSWORD = "Admin@12345"; 
+        
+        let userPass = prompt("لطفاً رمز عبور پنل مدیریت را وارد کنید:");
+        if (userPass !== ADMIN_PASSWORD) {
+            document.body.innerHTML = "<div style='text-align:center; margin-top:50px;'><h2 style='color:#ff5252;'>⛔ دسترسی غیرمجاز!</h2><p>شما اجازه ورود به این صفحه را ندارید.</p></div>";
+            throw new Error("Unauthorized"); // متوقف کردن اجرای بقیه کدها
+        }
+    </script>
+
     <div class="container">
         <h1>مدیریت محصولات</h1>
         
@@ -48,9 +61,7 @@
     </div>
 
     <script>
-        // اگر از قبل فایلی دارید، می‌توانید محتوای آن را اینجا کپی کنید تا لیست خالی شروع نشود
         let products = []; 
-        // برای شروع، محصولات پیش‌فرض را اینجا قرار دادم تا لیست خالی نباشد
         if(products.length === 0) {
             products = [
                 { id: 1, name: 'عسل طبیعی کوهستان', price: 280000, cat: 'food', badge: 'تخفیف', icon: '🍯', desc: 'عسل خالص' },
@@ -83,20 +94,17 @@
                 return;
             }
 
-            const newProduct = {
-                id: Date.now(), // تولید یک آیدی یکتا
+            products.push({
+                id: Date.now(),
                 name: name,
                 price: price,
                 cat: cat,
                 badge: null,
                 icon: icon,
                 desc: desc
-            };
-
-            products.push(newProduct);
+            });
+            
             renderList();
-
-            // پاک کردن فرم
             document.getElementById('name').value = '';
             document.getElementById('price').value = '';
             document.getElementById('desc').value = '';
