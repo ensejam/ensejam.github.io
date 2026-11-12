@@ -6,7 +6,6 @@
     <title>بازارچه انسجام من</title>
 
     <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
-    
     <link rel="stylesheet" href="https://cdn.fontcdn.ir/Font/Persian/YekanBakh/YekanBakh.css">
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
 
@@ -187,6 +186,7 @@
     <div id="toast" style="position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--gold); color:#000; padding:10px 20px; border-radius:20px; font-size:13px; font-weight:bold; opacity:0; pointer-events:none; transition:0.3s; z-index:100; box-shadow:0 5px 15px rgba(0,0,0,0.5);"></div>
 
     <script>
+        // === تنظیمات متغیرها ===
         let products = []; 
         let services = [];
         let cartCount = 0;
@@ -196,6 +196,7 @@
         const productGrid = document.getElementById('productGrid');
         const servicesContainer = document.getElementById('servicesContainer');
 
+        // === دریافت داده‌ها ===
         async function fetchData() {
             try {
                 const prodRes = await fetch('products.json');
@@ -206,11 +207,12 @@
                 services = await servRes.json();
                 renderServices();
             } catch (error) {
-                console.error('خطا:', error);
-                productGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff5252;">خطا در بارگذاری اطلاعات. (آیا فایل‌های JSON ساخته شده‌اند؟)</div>`;
+                console.error('خطا در خواندن فایل‌ها:', error);
+                productGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff5252;">خطا در بارگذاری اطلاعات. (آیا products.json و services.json ساخته شده‌اند؟)</div>`;
             }
         }
 
+        // === نمایش محصولات ===
         function renderProducts() {
             let filtered = products;
             if (currentCategory !== 'all') filtered = filtered.filter(p => p.cat === currentCategory);
@@ -236,6 +238,7 @@
             }).join('');
         }
 
+        // === نمایش خدمات ===
         function renderServices() {
             servicesContainer.innerHTML = services.map(s => `
                 <div class="service-card" onclick="openServiceModal(${s.id})">
@@ -246,6 +249,7 @@
             `).join('');
         }
 
+        // === رویدادها ===
         document.getElementById('searchInput').addEventListener('input', (e) => {
             searchQuery = e.target.value; renderProducts();
         });
@@ -257,6 +261,7 @@
             currentCategory = btn.dataset.cat; renderProducts();
         });
 
+        // === پنجره‌ها ===
         const overlay = document.getElementById('modalOverlay');
         const bottomSheet = document.getElementById('bottomSheet');
         const productView = document.getElementById('productView');
@@ -314,6 +319,7 @@
         }
         overlay.addEventListener('click', closeModal);
 
+        // === سبد خرید ===
         const cartBadge = document.getElementById('cartBadge');
         document.getElementById('addToCartBtn').addEventListener('click', () => {
             cartCount++; cartBadge.innerText = cartCount; cartBadge.classList.add('show');
@@ -322,6 +328,7 @@
             setTimeout(() => { closeModal(); setTimeout(() => { btn.innerText = 'افزودن به سبد خرید'; btn.style.background = ''; }, 300); }, 800);
         });
 
+        // === منوی ناوبری ===
         function setActiveNav(id) {
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -349,13 +356,14 @@
             }, 2500);
         }
 
-        (function init() {
+        // === شروع برنامه ===
+        document.addEventListener('DOMContentLoaded', () => {
             if (window.Eitaa && window.Eitaa.WebApp) {
                 window.Eitaa.WebApp.ready();
                 if (!window.Eitaa.WebApp.isExpanded) window.Eitaa.WebApp.expand();
             }
             fetchData();
-        })();
+        });
     </script>
 </body>
 </html>
