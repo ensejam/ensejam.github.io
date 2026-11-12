@@ -13,16 +13,15 @@
 
     <style>
         :root {
-            --bg-dark: #061311; /* پس‌زمینه بسیار تیره و لوکس */
-            --teal: #009688;
-            --teal-light: #26a69a;
+            --bg-dark: #041a17; /* تیره و لوکس */
+            --teal: #00bfa5; /* فیروزه‌ای درخشان */
+            --teal-dark: #00796b;
             --gold: #e5c158;
-            --gold-dark: #c59b27;
             --orange: #ff7043;
             --text-main: #ffffff;
             --text-muted: #8fa6a3;
-            --glass: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -31,23 +30,22 @@
             font-family: 'Yekan Bakh', 'Vazirmatn', sans-serif;
             background-color: #000; /* پس‌زمینه سیاه برای دسکتاپ */
             color: var(--text-main);
-            min-height: 100vh;
+            min-height: 100dvh; /* استاندارد جدید موبایل برای جلوگیری از گیر کردن */
             display: flex;
             justify-content: center;
-            overflow: hidden; /* جلوگیری از اسکرول اضافه */
+            overflow-x: hidden;
         }
 
-        /* --- کانتینر اصلی (شبیه گوشی موبایل) --- */
+        /* --- کانتینر اصلی (اپلیکیشن) --- */
         #app-container {
             width: 100%;
-            max-width: 480px; /* در دسکتاپ وسط صفحه قرار می‌گیرد */
-            height: 100vh;
+            max-width: 480px; /* عرض موبایل در دسکتاپ */
+            min-height: 100dvh; /* اجازه رشد به محتوا در صورت نیاز */
             background-color: var(--bg-dark);
             position: relative;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
             overflow-x: hidden;
         }
 
@@ -59,117 +57,126 @@
             pointer-events: none;
         }
 
-        /* --- بخش هدر (بالای صفحه) --- */
+        /* --- هدر --- */
         .header {
             position: relative;
             z-index: 1;
-            padding: 40px 24px 24px;
+            padding: 20px 20px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
 
-        /* تصویر شما به عنوان یک بنر زیبا در بالای صفحه */
+        /* تصویر شما (کوتاه‌تر شد تا فضا اشغال نکند) */
         .hero-image {
             width: 100%;
-            height: 180px;
-            border-radius: 24px;
+            height: 140px; /* کاهش ارتفاع */
+            border-radius: 20px;
             background: url('hero-bg.jpg') center/cover;
             position: relative;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             border: 1px solid var(--glass-border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .hero-overlay {
             position: absolute;
             inset: 0;
             background: linear-gradient(to top, var(--bg-dark), transparent);
-            border-radius: 24px;
+            border-radius: 20px;
         }
 
-        /* لوگو روی عکس */
         .logo-badge {
             position: absolute;
-            bottom: -20px;
+            bottom: -18px;
             left: 50%;
             transform: translateX(-50%);
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, var(--teal), var(--teal-light));
-            border-radius: 20px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             color: #fff;
             border: 3px solid var(--bg-dark);
-            box-shadow: 0 8px 20px rgba(0, 150, 136, 0.4);
+            box-shadow: 0 6px 15px rgba(0, 191, 165, 0.3);
             z-index: 2;
         }
 
         .title {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
-            margin-top: 16px;
+            margin-top: 14px;
             background: linear-gradient(90deg, var(--gold), var(--orange));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
-            margin-top: 8px;
-            line-height: 1.6;
+            margin-top: 6px;
+            line-height: 1.5;
         }
 
-        /* --- بخش کارت‌ها --- */
+        /* --- محتوا (کارت‌ها) --- */
         .content {
             position: relative;
             z-index: 1;
-            padding: 0 24px;
+            padding: 16px 20px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            flex-grow: 1;
+            gap: 12px; /* فاصله کمتر بین کارت‌ها */
+            flex-grow: 1; /* پر کردن فضا */
         }
 
-        /* کارت اصلی (بازارچه) */
-        .card-main {
-            background: linear-gradient(135deg, rgba(0, 150, 136, 0.15), rgba(0, 150, 136, 0.05));
-            border: 1px solid var(--teal);
-            border-radius: 24px;
-            padding: 24px;
+        .card-main, .card-secondary {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 16px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             text-decoration: none;
             color: #fff;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 10px 20px rgba(0, 150, 136, 0.1);
+            transition: transform 0.2s;
         }
 
-        .card-main:active {
-            transform: scale(0.98);
+        .card-main {
+            background: linear-gradient(135deg, rgba(0, 191, 165, 0.15), rgba(0, 191, 165, 0.05));
+            border-color: rgba(0, 191, 165, 0.3);
+        }
+
+        .card-main:active, .card-secondary:active {
+            transform: scale(0.97);
         }
 
         .card-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--teal);
-            border-radius: 18px;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 8px 16px rgba(0, 150, 136, 0.4);
+        }
+
+        .card-main .card-icon {
+            background: var(--teal);
+            box-shadow: 0 4px 12px rgba(0, 191, 165, 0.4);
+        }
+
+        .card-secondary .card-icon {
+            background: rgba(229, 193, 88, 0.15);
+            color: var(--gold);
         }
 
         .card-text h3 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: 4px;
         }
@@ -177,104 +184,49 @@
         .card-text p {
             font-size: 12px;
             color: var(--text-muted);
-            line-height: 1.5;
         }
 
-        /* کارت ثانویه (اخبار) */
-        .card-secondary {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            text-decoration: none;
-            color: #fff;
-            transition: background 0.2s;
-        }
-        
-        .card-secondary:active {
-            background: rgba(255,255,255,0.08);
-        }
-
-        .card-secondary .card-icon {
-            background: rgba(229, 193, 88, 0.15); /* طلایی */
-            color: var(--gold);
-            box-shadow: none;
-        }
-
-        /* --- دکمه اصلی پایین صفحه --- */
+        /* --- دکمه پایین --- */
         .footer {
             position: relative;
             z-index: 1;
-            padding: 24px;
-            padding-bottom: calc(24px + env(safe-area-inset-bottom));
-            margin-top: auto;
+            padding: 16px 20px calc(20px + env(safe-area-inset-bottom));
+            margin-top: auto; /* این باعث می‌شود دکمه در صفحات بزرگ به پایین بچسبد */
         }
 
         .btn-primary {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 8px;
             width: 100%;
-            padding: 20px 24px;
-            background: linear-gradient(90deg, var(--teal), #00796b);
+            padding: 16px;
+            background: linear-gradient(90deg, var(--teal), var(--teal-dark));
             color: #fff;
             border: none;
-            border-radius: 20px;
-            font-size: 18px;
+            border-radius: 16px;
+            font-size: 16px;
             font-weight: 700;
             font-family: inherit;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0, 150, 136, 0.4);
+            box-shadow: 0 8px 20px rgba(0, 191, 165, 0.3);
             transition: transform 0.2s;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* درخشش روی دکمه */
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: skewX(-20deg);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 100%; }
-            100% { left: 100%; }
         }
 
         .btn-primary:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
 
-        .btn-primary svg {
-            width: 24px;
-            height: 24px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(-5px); }
-        }
-
-        /* --- انیمیشن ورود المان‌ها --- */
+        /* --- انیمیشن --- */
         .animate-up {
             animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
-        
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.3s; }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -282,12 +234,9 @@
 <body>
 
     <div id="app-container">
-        <!-- ذرات متحرک JS -->
         <canvas id="particleCanvas"></canvas>
 
-        <!-- هدر -->
         <div class="header animate-up">
-            <!-- تصویر شما در یک قاب زیبا -->
             <div class="hero-image">
                 <div class="hero-overlay"></div>
                 <div class="logo-badge">ان</div>
@@ -296,12 +245,11 @@
             <p class="subtitle">اکوسیستمی مدرن برای توانمندسازی اقتصادی و اطلاع‌رسانی محلی</p>
         </div>
 
-        <!-- کارت‌ها -->
         <div class="content">
             <!-- کارت بازارچه -->
             <a href="market.html" class="card-main animate-up delay-1">
                 <div class="card-icon">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                         <line x1="3" y1="6" x2="21" y2="6"></line>
                         <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -316,7 +264,7 @@
             <!-- کارت کانال -->
             <a href="https://eitaa.com/enshejam_man" target="_blank" class="card-secondary animate-up delay-2">
                 <div class="card-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
                     </svg>
                 </div>
@@ -327,11 +275,10 @@
             </a>
         </div>
 
-        <!-- دکمه پایین -->
         <div class="footer animate-up delay-3">
             <button class="btn-primary" id="enterMarketBtn">
-                <span>ورود سریع به بازارچه</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <span>ورود به بازارچه</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 12H5M12 19l-7-7 7-7"/>
                 </svg>
             </button>
@@ -339,7 +286,6 @@
     </div>
 
     <script>
-        // 1. راه‌اندازی ایتا
         (function initEitaaApp() {
             if (window.Eitaa && window.Eitaa.WebApp) {
                 window.Eitaa.WebApp.ready();
@@ -347,18 +293,14 @@
             }
         })();
 
-        // 2. مدیریت دکمه
         document.getElementById('enterMarketBtn').addEventListener('click', function() {
-            // یک افکت کلیک (در صورت نیاز)
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 window.location.href = 'market.html';
             }, 150);
         });
 
-        // ==========================================
-        // 3. ذرات متحرک (بسیار سبک و زیبا)
-        // ==========================================
+        // سیستم ذرات طلایی (سبک و بهینه)
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         const container = document.getElementById('app-container');
@@ -375,8 +317,8 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.5;
-                this.speedY = Math.random() * -0.8 - 0.2; // به سمت بالا
+                this.size = Math.random() * 2 + 1;
+                this.speedY = Math.random() * -0.5 - 0.1;
                 this.opacity = Math.random() * 0.5 + 0.1;
             }
             update() {
@@ -387,7 +329,7 @@
                 }
             }
             draw() {
-                ctx.fillStyle = `rgba(229, 193, 88, ${this.opacity})`; // طلایی
+                ctx.fillStyle = `rgba(229, 193, 88, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -396,8 +338,7 @@
 
         function init() {
             particles = [];
-            // تعداد ذرات کمتر برای دسکتاپ که شلوغ نشود
-            const count = (canvas.width * canvas.height) / 12000;
+            const count = (canvas.width * canvas.height) / 15000;
             for (let i = 0; i < count; i++) {
                 particles.push(new Particle());
             }
@@ -414,8 +355,6 @@
 
         init();
         animate();
-        
-        // اگر سایز تغییر کرد، ذرات دوباره ساخته شوند
         window.addEventListener('resize', init);
     </script>
 </body>
