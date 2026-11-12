@@ -1,1 +1,429 @@
-ggggg
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>بازارچه انسجام من</title>
+
+    <!-- اتصال به کیت توسعه ایتا -->
+    <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
+
+    <style>
+        :root {
+            --bg: var(--tg-theme-bg-color, #f8f9fa);
+            --text: var(--tg-theme-text-color, #1a1a1a);
+            --hint: var(--tg-theme-hint-color, #8e8e93);
+            --button: var(--tg-theme-button-color, #2e7d32);
+            --button-text: var(--tg-theme-button-text-color, #ffffff);
+            --card-bg: var(--tg-theme-secondary-bg-color, #ffffff);
+            --divider: var(--tg-theme-hint-color, #e0e0e0);
+            --accent: #ff9800; /* رنگ تاکیدی برای برچسب‌ها */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            padding-bottom: calc(70px + env(safe-area-inset-bottom)); /* فضا برای نوار پایین */
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+        }
+
+        /* --- هدر: عنوان و جستجو --- */
+        .header {
+            padding: 16px 16px 8px;
+            background: var(--bg);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .header-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 10px 14px;
+            gap: 8px;
+            border: 1px solid var(--divider);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        .search-box input::placeholder { color: var(--hint); }
+
+        /* --- دسته‌بندی‌های افقی --- */
+        .categories {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .categories::-webkit-scrollbar { display: none; }
+
+        .cat-chip {
+            flex-shrink: 0;
+            padding: 8px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--divider);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .cat-chip.active {
+            background: var(--button);
+            color: var(--button-text);
+            border-color: var(--button);
+        }
+
+        /* --- بنر تبلیغاتی --- */
+        .banner {
+            margin: 8px 16px 16px;
+            height: 120px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #2e7d32, #66bb6a);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner h2 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+        .banner p { font-size: 12px; opacity: 0.9; }
+
+        /* --- بخش محصولات --- */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px 12px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .see-all {
+            font-size: 12px;
+            color: var(--button);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 0 16px 24px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--divider);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.1s;
+        }
+
+        .product-card:active { transform: scale(0.98); }
+
+        .product-img {
+            height: 140px;
+            background: linear-gradient(45deg, #e8f5e9, #c8e6c9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #2e7d32;
+            position: relative;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+
+        .product-info {
+            padding: 10px 12px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .product-name {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--button);
+        }
+
+        .product-old-price {
+            font-size: 11px;
+            color: var(--hint);
+            text-decoration: line-through;
+            margin-right: 6px;
+        }
+
+        /* --- نوار پایین (تب‌بار) --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--card-bg);
+            border-top: 1px solid var(--divider);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: 20;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 10px;
+            color: var(--hint);
+            cursor: pointer;
+            transition: color 0.2s;
+            flex: 1;
+        }
+
+        .nav-item.active { color: var(--button); font-weight: 700; }
+        .nav-item span:first-child { font-size: 20px; }
+
+        /* --- لایه‌ی بارگذاری --- */
+        #loading-overlay {
+            position: fixed; inset: 0; background: var(--bg);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; font-size: 14px; color: var(--hint);
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading-overlay">در حال بارگذاری بازارچه...</div>
+
+    <!-- هدر -->
+    <div class="header">
+        <div class="header-top">
+            <div class="header-title">بازارچه انسجام من</div>
+            <div class="header-icon" id="cartBtn">🛒</div>
+        </div>
+        <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="searchInput" placeholder="جستجوی محصول...">
+        </div>
+    </div>
+
+    <!-- دسته‌بندی‌ها -->
+    <div class="categories" id="categoriesContainer">
+        <div class="cat-chip active" data-cat="all">همه</div>
+        <div class="cat-chip" data-cat="food">خوراکی</div>
+        <div class="cat-chip" data-cat="handicraft">صنایع دستی</div>
+        <div class="cat-chip" data-cat="clothing">پوشاک</div>
+        <div class="cat-chip" data-cat="home">خانه و آشپزخانه</div>
+        <div class="cat-chip" data-cat="digital">دیجیتال</div>
+    </div>
+
+    <!-- بنر -->
+    <div class="banner">
+        <h2>✨ پیشنهاد ویژه این هفته</h2>
+        <p>تخفیف‌های ویژه محصولات محلی و صنایع دستی</p>
+    </div>
+
+    <!-- محصولات -->
+    <div class="section-header">
+        <div class="section-title" id="sectionTitle">همه محصولات</div>
+        <div class="see-all">مشاهده همه</div>
+    </div>
+    <div class="product-grid" id="productGrid">
+        <!-- کارت‌های محصول به صورت داینامیک اضافه می‌شوند -->
+    </div>
+
+    <!-- نوار پایین -->
+    <div class="bottom-nav">
+        <div class="nav-item active" data-tab="home"><span>🏠</span><span>خانه</span></div>
+        <div class="nav-item" data-tab="categories"><span>📂</span><span>دسته‌بندی</span></div>
+        <div class="nav-item" data-tab="cart"><span>🛒</span><span>سبد خرید</span></div>
+        <div class="nav-item" data-tab="profile"><span>👤</span><span>پروفایل</span></div>
+    </div>
+
+    <script>
+        // --- ۱. مقداردهی اولیه ایتا ---
+        (function initEitaa() {
+            if (window.Eitaa && window.Eitaa.WebApp) {
+                window.Eitaa.WebApp.ready();
+                if (!window.Eitaa.WebApp.isExpanded) window.Eitaa.WebApp.expand();
+            }
+            // پنهان کردن لایه بارگذاری پس از آماده شدن
+            setTimeout(() => {
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) { overlay.style.opacity = '0'; setTimeout(() => overlay.remove(), 300); }
+            }, 300);
+        })();
+
+        // --- ۲. داده‌های نمونه (محصولات) ---
+        // این داده‌ها را می‌توانی بعداً از یک API یا فایل JSON دریافت کنی
+        const allProducts = [
+            { id: 1, name: 'عسل طبیعی کوهستان', price: 280000, oldPrice: 350000, cat: 'food', badge: '٪۲۰ تخفیف', icon: '🍯' },
+            { id: 2, name: 'فرش دستباف کوچک', price: 1200000, oldPrice: null, cat: 'handicraft', badge: null, icon: '🧶' },
+            { id: 3, name: 'شیرینی سنتی خانگی', price: 150000, oldPrice: 180000, cat: 'food', badge: 'تخفیف', icon: '🍪' },
+            { id: 4, name: 'کیف چرم دست‌دوز', price: 450000, oldPrice: null, cat: 'clothing', badge: 'جدید', icon: '👜' },
+            { id: 5, name: 'لیوان سرامیکی هنری', price: 95000, oldPrice: null, cat: 'home', badge: null, icon: '☕' },
+            { id: 6, name: 'هدفون بی‌سیم', price: 680000, oldPrice: 850000, cat: 'digital', badge: '٪۲۰ تخفیف', icon: '🎧' },
+            { id: 7, name: 'زعفران ممتاز', price: 320000, oldPrice: null, cat: 'food', badge: 'ویژه', icon: '🌺' },
+            { id: 8, name: 'گلیم دستباف', price: 890000, oldPrice: 1100000, cat: 'handicraft', badge: 'تخفیف', icon: '🧵' }
+        ];
+
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        // --- ۳. توابع رندر ---
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            let filtered = allProducts;
+
+            // فیلتر بر اساس دسته‌بندی
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(p => p.cat === currentCategory);
+            }
+
+            // فیلتر بر اساس جستجو
+            if (searchQuery.trim()) {
+                const q = searchQuery.trim().toLowerCase();
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(q));
+            }
+
+            // به‌روزرسانی عنوان بخش
+            const catNames = { all: 'همه محصولات', food: 'خوراکی', handicraft: 'صنایع دستی', clothing: 'پوشاک', home: 'خانه و آشپزخانه', digital: 'دیجیتال' };
+            document.getElementById('sectionTitle').textContent = catNames[currentCategory] || 'محصولات';
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 0; color: var(--hint);">محصولی یافت نشد.</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => `
+                <div class="product-card" onclick="alert('صفحه محصول: ${p.name}')">
+                    <div class="product-img">
+                        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+                        <span>${p.icon}</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <div>
+                            <span class="product-price">${p.price.toLocaleString('fa-IR')} تومان</span>
+                            ${p.oldPrice ? `<span class="product-old-price">${p.oldPrice.toLocaleString('fa-IR')}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- ۴. رویدادها ---
+
+        // کلیک روی دسته‌بندی‌ها
+        document.getElementById('categoriesContainer').addEventListener('click', (e) => {
+            const chip = e.target.closest('.cat-chip');
+            if (!chip) return;
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            currentCategory = chip.dataset.cat;
+            renderProducts();
+        });
+
+        // جستجو
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderProducts();
+        });
+
+        // دکمه سبد خرید در هدر
+        document.getElementById('cartBtn').addEventListener('click', () => {
+            alert('سبد خرید شما خالی است.');
+        });
+
+        // نوار پایین (فقط برای نمایش)
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                if (item.dataset.tab !== 'home') {
+                    alert('این بخش به زودی فعال می‌شود.');
+                }
+            });
+        });
+
+        // --- ۵. رندر اولیه ---
+        renderProducts();
+    </script>
+</body>
+</html>
