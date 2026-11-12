@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت محصولات بازارچه</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #041a17; --card: #082622; --teal: #00bfa5; --gold: #e5c158; --text: #fff; --border: rgba(255,255,255,0.1); }
+        * { box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; }
+        body { background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 600px; }
+        h1 { color: var(--teal); text-align: center; margin-bottom: 20px; }
+        .form-box { background: var(--card); padding: 20px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 20px; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--teal); }
+        button { width: 100%; padding: 14px; border: none; border-radius: 8px; background: var(--teal); color: #fff; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        button:hover { opacity: 0.8; }
+        .btn-export { background: var(--gold); color: #000; margin-top: 20px; }
+        .product-item { background: var(--card); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .product-item span { font-size: 14px; }
+        .btn-delete { background: #ff5252; width: auto; padding: 6px 12px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>مدیریت محصولات</h1>
+        
+        <div class="form-box">
+            <h3 style="margin-top:0; color:var(--gold);">افزودن محصول جدید</h3>
+            <input type="text" id="name" placeholder="نام محصول (مثلاً عسل طبیعی)">
+            <input type="number" id="price" placeholder="قیمت (مثلاً 280000)">
+            <select id="category">
+                <option value="food">خوراکی</option>
+                <option value="handicraft">صنایع دستی</option>
+                <option value="clothing">پوشاک</option>
+                <option value="digital">دیجیتال</option>
+            </select>
+            <input type="text" id="icon" placeholder="ایموجی محصول (مثلاً 🍯)">
+            <textarea id="desc" rows="3" placeholder="توضیحات محصول..."></textarea>
+            <button onclick="addProduct()">+ افزودن به لیست</button>
+        </div>
+
+        <h3>لیست محصولات فعلی</h3>
+        <div id="list"></div>
+
+        <button class="btn-export" onclick="exportJSON()">📥 دانلود فایل products.json</button>
+    </div>
+
+    <script>
+        // اگر از قبل فایلی دارید، می‌توانید محتوای آن را اینجا کپی کنید تا لیست خالی شروع نشود
+        let products = []; 
+        // برای شروع، محصولات پیش‌فرض را اینجا قرار دادم تا لیست خالی نباشد
+        if(products.length === 0) {
+            products = [
+                { id: 1, name: 'عسل طبیعی کوهستان', price: 280000, cat: 'food', badge: 'تخفیف', icon: '🍯', desc: 'عسل خالص' },
+                { id: 2, name: 'فرش دستباف کوچک', price: 1200000, cat: 'handicraft', badge: null, icon: '🧶', desc: 'فرش دستباف' }
+            ];
+        }
+
+        function renderList() {
+            const list = document.getElementById('list');
+            list.innerHTML = '';
+            products.forEach((p, index) => {
+                list.innerHTML += `
+                    <div class="product-item">
+                        <span>${p.icon} <b>${p.name}</b> - ${p.price.toLocaleString('fa-IR')} تومان</span>
+                        <button class="btn-delete" onclick="deleteProduct(${index})">حذف</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addProduct() {
+            const name = document.getElementById('name').value;
+            const price = parseInt(document.getElementById('price').value);
+            const cat = document.getElementById('category').value;
+            const icon = document.getElementById('icon').value || '📦';
+            const desc = document.getElementById('desc').value;
+
+            if (!name || !price) {
+                alert('لطفاً نام و قیمت را وارد کنید.');
+                return;
+            }
+
+            const newProduct = {
+                id: Date.now(), // تولید یک آیدی یکتا
+                name: name,
+                price: price,
+                cat: cat,
+                badge: null,
+                icon: icon,
+                desc: desc
+            };
+
+            products.push(newProduct);
+            renderList();
+
+            // پاک کردن فرم
+            document.getElementById('name').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('desc').value = '';
+            document.getElementById('icon').value = '';
+        }
+
+        function deleteProduct(index) {
+            if(confirm('آیا از حذف این محصول مطمئن هستید؟')) {
+                products.splice(index, 1);
+                renderList();
+            }
+        }
+
+        function exportJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "products.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        renderList();
+    </script>
+</body>
+</html>
