@@ -12,16 +12,19 @@
         .container { width: 100%; max-width: 600px; }
         h1 { color: var(--teal); text-align: center; margin-bottom: 20px; }
         .form-box { background: var(--card); padding: 20px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 20px; }
-        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid var(--border); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--teal); }
-        .help-text { font-size: 11px; color: var(--gold); margin-top: -8px; margin-bottom: 12px; display: block; }
+        .help-text { font-size: 11px; color: var(--gold); margin-bottom: 12px; display: block; }
         button { width: 100%; padding: 14px; border: none; border-radius: 8px; background: var(--teal); color: #fff; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
         button:hover { opacity: 0.8; }
         .btn-export { background: var(--gold); color: #000; margin-top: 20px; }
+        .btn-add-img { background: transparent; border: 1px dashed var(--teal); color: var(--teal); padding: 8px; font-size: 13px; margin-bottom: 12px; }
         .product-item { background: var(--card); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .product-item img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; margin-left: 10px; }
         .product-item div { display: flex; align-items: center; }
         .btn-delete { background: #ff5252; width: auto; padding: 6px 12px; font-size: 12px; }
+        .image-input-group { display: flex; gap: 8px; margin-bottom: 8px; }
+        .image-input-group input { margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -49,9 +52,14 @@
                 <option value="digital">دیجیتال</option>
             </select>
             
-            <!-- فیلد عکس با راهنمای جدید -->
-            <input type="text" id="image" placeholder="نام عکس (مثلاً honey.jpg)">
-            <span class="help-text">فقط نام فایل عکس را وارد کنید (پسوند jpg یا png). آدرس سایت به صورت خودکار اضافه می‌شود.</span>
+            <!-- بخش عکس‌ها -->
+            <div id="imageInputsContainer">
+                <div class="image-input-group">
+                    <input type="text" class="image-input" placeholder="نام عکس ۱ (مثلاً honey1.jpg)">
+                </div>
+            </div>
+            <button class="btn-add-img" type="button" onclick="addImageInput()">+ افزودن عکس دیگر</button>
+            <span class="help-text">فقط نام فایل‌ها را وارد کنید. آدرس سایت خودکار اضافه می‌شود.</span>
             
             <input type="text" id="icon" placeholder="ایموجی (در صورت نداشتن عکس مثلاً 🍯)">
             <textarea id="desc" rows="3" placeholder="توضیحات محصول..."></textarea>
@@ -66,15 +74,28 @@
 
     <script>
         let products = [
-            { id: 1, name: 'عسل طبیعی کوهستان', price: 280000, cat: 'food', badge: 'تخفیف', icon: '🍯', image: '', desc: 'عسل خالص' },
-            { id: 2, name: 'فرش دستباف کوچک', price: 1200000, cat: 'handicraft', badge: null, icon: '🧶', image: '', desc: 'فرش دستباف' }
+            { id: 1, name: 'عسل طبیعی کوهستان', price: 280000, cat: 'food', badge: 'تخفیف', icon: '🍯', images: [], desc: 'عسل خالص' }
         ];
+
+        // اضافه کردن باکس عکس جدید
+        function addImageInput() {
+            const container = document.getElementById('imageInputsContainer');
+            const div = document.createElement('div');
+            div.className = 'image-input-group';
+            div.innerHTML = `<input type="text" class="image-input" placeholder="نام عکس بعدی...">`;
+            container.appendChild(div);
+        }
 
         function renderList() {
             const list = document.getElementById('list');
             list.innerHTML = '';
             products.forEach((p, index) => {
-                let visual = p.image ? `<img src="${p.image}" alt="${p.name}">` : `<span style="font-size:24px; margin-left:10px;">${p.icon || '📦'}</span>`;
+                // پشتیبانی از ساختار قدیمی (image) و جدید (images)
+                let imgSrc = '';
+                if (p.images && p.images.length > 0) imgSrc = p.images[0];
+                else if (p.image) imgSrc = p.image;
+
+                let visual = imgSrc ? `<img src="${imgSrc}" alt="${p.name}">` : `<span style="font-size:24px; margin-left:10px;">${p.icon || '📦'}</span>`;
                 
                 list.innerHTML += `
                     <div class="product-item">
@@ -92,7 +113,6 @@
             const name = document.getElementById('name').value;
             const price = parseInt(document.getElementById('price').value);
             const cat = document.getElementById('category').value;
-            const rawImage = document.getElementById('image').value.trim();
             const icon = document.getElementById('icon').value || '📦';
             const desc = document.getElementById('desc').value;
 
@@ -101,18 +121,19 @@
                 return;
             }
 
-            // --- بخش هوشمندسازی آدرس عکس ---
-            let finalImageUrl = '';
-            if (rawImage) {
-                if (rawImage.startsWith('http://') || rawImage.startsWith('https://')) {
-                    // اگر کاربر خودش لینک کامل داد، همان را ذخیره کن
-                    finalImageUrl = rawImage;
-                } else {
-                    // اگر فقط اسم فایل داد، آدرس سایت را به آن بچسبان
-                    finalImageUrl = `https://ensejam.github.io/images/${rawImage}`;
+            // جمع‌آوری تمام عکس‌ها
+            const imageInputs = document.querySelectorAll('.image-input');
+            let finalImages = [];
+            
+            imageInputs.forEach(input => {
+                let val = input.value.trim();
+                if (val) {
+                    if (!val.startsWith('http://') && !val.startsWith('https://')) {
+                        val = `https://ensejam.github.io/images/${val}`;
+                    }
+                    finalImages.push(val);
                 }
-            }
-            // --------------------------------
+            });
 
             products.push({
                 id: Date.now(),
@@ -121,7 +142,7 @@
                 cat: cat,
                 badge: null,
                 icon: icon,
-                image: finalImageUrl, // ذخیره آدرس نهایی
+                images: finalImages, // آرایه‌ای از عکس‌ها
                 desc: desc
             });
             
@@ -131,7 +152,13 @@
             document.getElementById('price').value = '';
             document.getElementById('desc').value = '';
             document.getElementById('icon').value = '';
-            document.getElementById('image').value = '';
+            
+            // ریست کردن باکس‌های عکس
+            document.getElementById('imageInputsContainer').innerHTML = `
+                <div class="image-input-group">
+                    <input type="text" class="image-input" placeholder="نام عکس ۱...">
+                </div>
+            `;
         }
 
         function deleteProduct(index) {
