@@ -132,6 +132,39 @@
             align-content: start;
         }
 
+        /* کارت بزرگ کانال (تمام عرض) */
+        .card-channel {
+            grid-column: 1 / -1; /* اشغال کل عرض */
+            background: linear-gradient(135deg, rgba(229, 193, 88, 0.15), rgba(229, 193, 88, 0.05));
+            border: 1px solid rgba(229, 193, 88, 0.3);
+            border-radius: 20px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            color: #fff;
+            transition: transform 0.2s;
+        }
+        .card-channel:active { transform: scale(0.97); }
+
+        .card-channel .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            color: #041a17;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(229, 193, 88, 0.3);
+        }
+
+        .card-channel .card-text h3 { font-size: 17px; font-weight: 800; margin-bottom: 4px; color: var(--gold); }
+        .card-channel .card-text p { font-size: 12px; color: var(--text-muted); }
+
+        /* کارت‌های کوچک (مساجد و مادرانه) */
         .card-secondary {
             background: var(--glass);
             border: 1px solid var(--glass-border);
@@ -143,43 +176,26 @@
             text-align: center;
             text-decoration: none;
             color: #fff;
-            gap: 10px;
+            gap: 12px;
             transition: transform 0.2s;
         }
+        .card-secondary:active { transform: scale(0.96); }
 
-        .card-secondary:active {
-            transform: scale(0.96);
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
+        .card-secondary .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
         }
 
-        .card-text h3 {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
+        .card-text h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .card-text p { font-size: 11px; color: var(--text-muted); }
 
-        .card-text p {
-            font-size: 11px;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        /* رنگ‌های اختصاصی کارت‌ها */
-        .icon-news { color: var(--gold); background: rgba(229, 193, 88, 0.1); }
+        /* رنگ‌های اختصاصی */
         .icon-mosque { color: var(--blue); background: rgba(59, 130, 246, 0.1); }
         .icon-mothers { color: var(--pink); background: rgba(255, 128, 171, 0.1); }
-        .icon-services { color: var(--orange); background: rgba(255, 112, 67, 0.1); }
 
         /* --- دکمه اصلی و لینک کاسبان --- */
         .footer {
@@ -212,9 +228,7 @@
             transition: transform 0.2s;
         }
 
-        .btn-primary:active {
-            transform: scale(0.96);
-        }
+        .btn-primary:active { transform: scale(0.96); }
 
         /* لینک کوچک کاسبان محله */
         .seller-link {
@@ -258,25 +272,26 @@
             <p class="subtitle">اکوسیستمی مدرن برای توانمندسازی اقتصادی و اطلاع‌رسانی محلی</p>
         </div>
 
-        <!-- شبکه ۲ در ۲ -->
+        <!-- محتوا -->
         <div class="content">
-            <!-- ۱. کانال ایتا -->
-            <a href="https://eitaa.com/ensejame_man" target="_blank" class="card-secondary animate-up delay-1">
-                <div class="card-icon icon-news">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            
+            <!-- ۱. کانال انسجام من (تمام عرض) -->
+            <a href="https://eitaa.com/ensejame_man" target="_blank" class="card-channel animate-up delay-1">
+                <div class="card-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
                     </svg>
                 </div>
                 <div class="card-text">
-                    <h3 style="color: var(--gold);">کانال خبری</h3>
-                    <p>آخرین اخبار محله</p>
+                    <h3>کانال انسجام من</h3>
+                    <p>عضویت و مشاهده آخرین اخبار و رویدادهای محله</p>
                 </div>
             </a>
 
-            <!-- ۲. مساجد -->
-            <a href="masjids.html" class="card-secondary animate-up delay-1">
+            <!-- ۲. مساجد (نیم عرض) -->
+            <a href="masjids.html" class="card-secondary animate-up delay-2">
                 <div class="card-icon icon-mosque">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                     </svg>
                 </div>
@@ -286,10 +301,10 @@
                 </div>
             </a>
 
-            <!-- ۳. گروه مادرانه -->
+            <!-- ۳. گروه مادرانه (نیم عرض) -->
             <a href="mothers.html" class="card-secondary animate-up delay-2">
                 <div class="card-icon icon-mothers">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                     </svg>
                 </div>
@@ -298,19 +313,7 @@
                     <p>بخش ویژه بانوان</p>
                 </div>
             </a>
-
-            <!-- ۴. خدمات محلی (لینک به تب خدمات در بازارچه) -->
-            <a href="market.html" class="card-secondary animate-up delay-2">
-                <div class="card-icon icon-services">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                    </svg>
-                </div>
-                <div class="card-text">
-                    <h3 style="color: var(--orange);">خدمات محلی</h3>
-                    <p>تعمیرکار، خیاط و...</p>
-                </div>
-            </a>
+            
         </div>
 
         <!-- بخش پایین: دکمه بازارچه و لینک کوچک کاسبان -->
@@ -368,8 +371,8 @@
             update() {
                 this.y += this.speedY;
                 if (this.y < 0) {
-                this.y = canvas.height;
-                this.x = Math.random() * canvas.width;
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
                 }
             }
             draw() {
