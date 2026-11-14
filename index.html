@@ -132,35 +132,22 @@
             align-content: start;
         }
 
-        .card-main, .card-secondary {
+        .card-secondary {
             background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 16px;
+            padding: 20px 10px;
             display: flex;
+            flex-direction: column;
             align-items: center;
+            text-align: center;
             text-decoration: none;
             color: #fff;
+            gap: 10px;
             transition: transform 0.2s;
         }
 
-        /* کارت اصلی (تمام عرض) */
-        .card-main {
-            grid-column: 1 / -1; /* اشغال هر دو ستون */
-            background: linear-gradient(135deg, rgba(0, 191, 165, 0.15), rgba(0, 191, 165, 0.05));
-            border-color: rgba(0, 191, 165, 0.3);
-            gap: 14px;
-        }
-
-        /* کارت‌های فرعی (نیم‌عرض) */
-        .card-secondary {
-            flex-direction: column;
-            text-align: center;
-            gap: 10px;
-            padding: 20px 10px;
-        }
-
-        .card-main:active, .card-secondary:active {
+        .card-secondary:active {
             transform: scale(0.96);
         }
 
@@ -172,14 +159,6 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-        }
-
-        .card-main .card-icon {
-            background: var(--teal);
-            box-shadow: 0 4px 12px rgba(0, 191, 165, 0.4);
-        }
-
-        .card-secondary .card-icon {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--glass-border);
         }
@@ -190,8 +169,6 @@
             margin-bottom: 4px;
         }
 
-        .card-main .card-text h3 { font-size: 17px; }
-
         .card-text p {
             font-size: 11px;
             color: var(--text-muted);
@@ -199,18 +176,21 @@
         }
 
         /* رنگ‌های اختصاصی کارت‌ها */
-        .icon-market { color: var(--teal); background: rgba(0, 191, 165, 0.1); }
         .icon-news { color: var(--gold); background: rgba(229, 193, 88, 0.1); }
         .icon-mosque { color: var(--blue); background: rgba(59, 130, 246, 0.1); }
         .icon-mothers { color: var(--pink); background: rgba(255, 128, 171, 0.1); }
-        .icon-dashboard { color: var(--orange); background: rgba(255, 112, 67, 0.1); }
+        .icon-services { color: var(--orange); background: rgba(255, 112, 67, 0.1); }
 
-        /* --- دکمه پایین --- */
+        /* --- دکمه اصلی و لینک کاسبان --- */
         .footer {
             position: relative;
             z-index: 1;
             padding: 16px 20px calc(20px + env(safe-area-inset-bottom));
             margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
 
         .btn-primary {
@@ -219,12 +199,12 @@
             justify-content: center;
             gap: 8px;
             width: 100%;
-            padding: 16px;
+            padding: 18px;
             background: linear-gradient(90deg, var(--teal), var(--teal-dark));
             color: #fff;
             border: none;
             border-radius: 16px;
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 700;
             font-family: inherit;
             cursor: pointer;
@@ -236,6 +216,20 @@
             transform: scale(0.96);
         }
 
+        /* لینک کوچک کاسبان محله */
+        .seller-link {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .seller-link:hover { color: var(--teal); background: rgba(0,191,165,0.05); }
+
         /* --- انیمیشن --- */
         .animate-up {
             animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -243,7 +237,6 @@
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
 
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -265,24 +258,10 @@
             <p class="subtitle">اکوسیستمی مدرن برای توانمندسازی اقتصادی و اطلاع‌رسانی محلی</p>
         </div>
 
+        <!-- شبکه ۲ در ۲ -->
         <div class="content">
-            <!-- ۱. بازارچه (تمام عرض) -->
-            <a href="market.html" class="card-main animate-up delay-1">
-                <div class="card-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <path d="M16 10a4 4 0 0 1-8 0"></path>
-                    </svg>
-                </div>
-                <div class="card-text">
-                    <h3>بازارچه محلی</h3>
-                    <p>ورود به ویترین محصولات و خدمات بومی</p>
-                </div>
-            </a>
-
-            <!-- ۲. کانال ایتا (نیم عرض) -->
-            <a href="https://eitaa.com/ensejame_man" target="_blank" class="card-secondary animate-up delay-2">
+            <!-- ۱. کانال ایتا -->
+            <a href="https://eitaa.com/ensejame_man" target="_blank" class="card-secondary animate-up delay-1">
                 <div class="card-icon icon-news">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
@@ -294,8 +273,8 @@
                 </div>
             </a>
 
-            <!-- ۳. مساجد (نیم عرض) -->
-            <a href="masjids.html" class="card-secondary animate-up delay-2">
+            <!-- ۲. مساجد -->
+            <a href="masjids.html" class="card-secondary animate-up delay-1">
                 <div class="card-icon icon-mosque">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
@@ -307,8 +286,8 @@
                 </div>
             </a>
 
-            <!-- ۴. گروه مادرانه (نیم عرض) -->
-            <a href="mothers.html" class="card-secondary animate-up delay-3">
+            <!-- ۳. گروه مادرانه -->
+            <a href="mothers.html" class="card-secondary animate-up delay-2">
                 <div class="card-icon icon-mothers">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -320,28 +299,33 @@
                 </div>
             </a>
 
-            <!-- ۵. پنل فروشندگان (نیم عرض) -->
-            <a href="dashboard.html" class="card-secondary animate-up delay-3">
-                <div class="card-icon icon-dashboard">
+            <!-- ۴. خدمات محلی (لینک به تب خدمات در بازارچه) -->
+            <a href="market.html" class="card-secondary animate-up delay-2">
+                <div class="card-icon icon-services">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
                     </svg>
                 </div>
                 <div class="card-text">
-                    <h3 style="color: var(--orange);">پنل فروشندگان</h3>
-                    <p>مدیریت غرفه و محصولات</p>
+                    <h3 style="color: var(--orange);">خدمات محلی</h3>
+                    <p>تعمیرکار، خیاط و...</p>
                 </div>
             </a>
         </div>
 
-        <div class="footer animate-up delay-4">
+        <!-- بخش پایین: دکمه بازارچه و لینک کوچک کاسبان -->
+        <div class="footer animate-up delay-3">
             <button class="btn-primary" id="enterMarketBtn">
                 <span>ورود به بازارچه</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 12H5M12 19l-7-7 7-7"/>
                 </svg>
             </button>
+            
+            <a href="dashboard.html" class="seller-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                ورود کاسبان و غرفه‌داران محله
+            </a>
         </div>
     </div>
 
@@ -384,8 +368,8 @@
             update() {
                 this.y += this.speedY;
                 if (this.y < 0) {
-                    this.y = canvas.height;
-                    this.x = Math.random() * canvas.width;
+                this.y = canvas.height;
+                this.x = Math.random() * canvas.width;
                 }
             }
             draw() {
